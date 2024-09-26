@@ -15,6 +15,14 @@ module.exports = (sequelize, DataTypes) => {
           {foreignKey: 'orgId'}
       )
       
+      User.hasMany(
+        models.Articles, 
+          {foreignKey: 'userId', onDelete: 'SET NULL'}
+      )
+      User.hasMany(
+        models.Comments, 
+        {foreignKey: 'userId', onDelete: 'CASCADE'}
+      )
     }
   }
   User.init({

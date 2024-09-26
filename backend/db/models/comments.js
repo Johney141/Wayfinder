@@ -3,35 +3,40 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Organization extends Model {
+  class Comments extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Organization.hasMany(
-        models.User, 
-        {foreignKey: 'orgId', onDelete: 'CASCADE'}
+      Comments.belongsTo(
+        models.User,
+        {foreignKey: 'userId'}
       )
 
-      Organization.hasMany(
+      Comments.belongsTo(
         models.Articles, 
-        {foreignKey: 'orgId', onDelete: 'CASCADE'}
+        {foreignKey: 'articleId'}
       )
     }
   }
-  Organization.init({
-    name: {
+  Comments.init({
+    comment: {
       type: DataTypes.STRING(255),
-      allowNull: false,
-      validate: {
-        len: [1, 255]
-      }
+      allowNull: false
+    },
+    articleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'Organization',
+    modelName: 'Comments',
   });
-  return Organization;
+  return Comments;
 };
