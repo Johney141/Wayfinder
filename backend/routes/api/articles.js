@@ -1,7 +1,7 @@
 const express = require('express');
 const { Articles, Comments, Organization, User, Sequelize } = require('../../db/models');
 const { requireAuth, requireOrg } = require('../../utils/auth');
-const { check } = require('express-validator');
+const { check, body } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
 
@@ -103,6 +103,39 @@ router.get('/:orgId/:articleId', requireAuth, requireOrg, async (req, res, next)
 
     } catch (error) {
         next(error);
+    }
+});
+
+const validateArticle = [
+    check('title')
+        .exists({checkFalsy: true})
+        .withMessage('Title is required'),
+    check('body')
+        .exists({checkFalsy: true})
+        .withMessage('Body is required'),
+    check('body')
+        .isLength({min: 50})
+        .withMessage('Body must be at least 50 characters long'),
+    handleValidationErrors
+]
+
+// Create a Article
+router.post('/:orgId', requireAuth, requireOrg, validateArticle, async (req, res, next) => {
+    try {
+        const { title, body } = req.body;
+        const userId = req.user.id;
+        const orgId = parseInt(req.params.orgId);
+    
+        const newArticle = await Articles.create({
+            title,
+            body,
+            userId,
+            orgId
+        })
+
+        res.status(201).json(newArticle)
+    } catch (error) {
+        next(error)
     }
 })
 module.exports = router;
