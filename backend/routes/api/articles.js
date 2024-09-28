@@ -1,14 +1,15 @@
 const express = require('express');
 const { Articles, Comments, Organization, User, Sequelize } = require('../../db/models');
-const { requireAuth, requireOrg } = require('../../utils/auth');
-const { check, body } = require('express-validator');
+const { requireOrg, requireAdmin } = require('../../utils/auth');
+const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op } = require('sequelize');
 
 
+
 const router = express.Router();
 // Search Route
-router.get('/:orgId/search', requireAuth, requireOrg, async (req, res, next) => {
+router.get('/:orgId/search', requireOrg, async (req, res, next) => {
     try {
         const orgId = parseInt(req.params.orgId);
         const query = req.query.q;
@@ -50,7 +51,7 @@ router.get('/:orgId/search', requireAuth, requireOrg, async (req, res, next) => 
 
 
 // Recent articles 
-router.get('/:orgId/recent', requireAuth, requireOrg, async (req, res, next) => {
+router.get('/:orgId/recent', requireOrg, async (req, res, next) => {
     try {
         const orgId = parseInt(req.params.orgId)
 
@@ -69,7 +70,7 @@ router.get('/:orgId/recent', requireAuth, requireOrg, async (req, res, next) => 
 })
 
 // Get Article Details
-router.get('/:orgId/:articleId', requireAuth, requireOrg, async (req, res, next) => {
+router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
     try {
         const articleId = parseInt(req.params.articleId);
         const article = await Articles.findOne({
@@ -120,11 +121,13 @@ const validateArticle = [
 ]
 
 // Create a Article
-router.post('/:orgId', requireAuth, requireOrg, validateArticle, async (req, res, next) => {
+router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, res, next) => {
     try {
         const { title, body } = req.body;
         const userId = req.user.id;
         const orgId = parseInt(req.params.orgId);
+
+        
     
         const newArticle = await Articles.create({
             title,
@@ -133,11 +136,55 @@ router.post('/:orgId', requireAuth, requireOrg, validateArticle, async (req, res
             orgId
         })
 
-        res.status(201).json(newArticle)
+        return res.status(201).json(newArticle)
     } catch (error) {
         next(error)
     }
 })
+
+router.put('/:orgId/:articleId', requireOrg, requireAdmin, validateArticle, async (req, res, next) => {
+    try {
+        const { title, body } = req.body;
+        const userId = req.user.id;
+        const orgId = parseInt(req.params.orgId);
+        const articleId = parseInt(req.params.articleId);
+
+        const article = await Articles.findByPk(articleId)
+        
+
+        await article.update({
+            title,
+            body,
+            userId,
+            orgId
+        })
+    // Add a middleware to check if admin (possibly combine middleware)
+        return res.json(article)
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.delete('/articles/:orgId/:articleId', requireOrg, requireAdmin, async (req, res, next) => {
+    try {
+        const articleId = parseInt(req.params.articleId);
+        const article = Articles.findByPk(articleId);
+
+        if(!article) {
+            const err = new Error("Article couldn't be found");
+            err.status = 404;
+            return next(err)
+        }
+
+        article.destroy();
+    
+
+        res.json({message: "Successfully deleted", article: article});
+    } catch (error) {
+        next(error)
+    }
+});
+
 module.exports = router;
 
 
