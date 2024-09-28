@@ -85,7 +85,7 @@ const requireOrg = function (req, _res, next) {
 }
 
 const requireAdmin = (req, _res, next) => {
-  if(req.user.isAdmin) return next
+  if(req.user.isAdmin) return next();
   const err = new Error('Forbidden')
   err.status = 401;
   return next(err)

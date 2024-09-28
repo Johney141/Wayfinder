@@ -141,16 +141,20 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
         next(error)
     }
 })
-
+// Update Article
 router.put('/:orgId/:articleId', requireOrg, requireAdmin, validateArticle, async (req, res, next) => {
     try {
         const { title, body } = req.body;
         const userId = req.user.id;
         const orgId = parseInt(req.params.orgId);
         const articleId = parseInt(req.params.articleId);
-
         const article = await Articles.findByPk(articleId)
         
+        if(!article) {
+            const err = new Error('Article not found')
+            err.status = 404;
+            return next(err);
+        }
 
         await article.update({
             title,
@@ -158,17 +162,17 @@ router.put('/:orgId/:articleId', requireOrg, requireAdmin, validateArticle, asyn
             userId,
             orgId
         })
-    // Add a middleware to check if admin (possibly combine middleware)
+    
         return res.json(article)
     } catch (error) {
         next(error)
     }
 })
 
-router.delete('/articles/:orgId/:articleId', requireOrg, requireAdmin, async (req, res, next) => {
+router.delete('/:orgId/:articleId', requireOrg, requireAdmin, async (req, res, next) => {
     try {
         const articleId = parseInt(req.params.articleId);
-        const article = Articles.findByPk(articleId);
+        const article = await Articles.findByPk(articleId);
 
         if(!article) {
             const err = new Error("Article couldn't be found");
@@ -176,7 +180,7 @@ router.delete('/articles/:orgId/:articleId', requireOrg, requireAdmin, async (re
             return next(err)
         }
 
-        article.destroy();
+        await article.destroy();
     
 
         res.json({message: "Successfully deleted", article: article});
