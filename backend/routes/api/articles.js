@@ -168,7 +168,7 @@ router.put('/:orgId/:articleId', requireOrg, requireAdmin, validateArticle, asyn
         next(error)
     }
 })
-
+// Delete an Article
 router.delete('/:orgId/:articleId', requireOrg, requireAdmin, async (req, res, next) => {
     try {
         const articleId = parseInt(req.params.articleId);
