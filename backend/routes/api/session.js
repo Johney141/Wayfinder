@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Organization } = require('../../db/models');
 const user = require('../../db/models/user');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -27,6 +27,12 @@ router.post( '/', validateLogin, async (req, res, next) => {
         where: {  
             email: credential
           },
+        include: [
+          {
+            model: Organization,
+            attributes: ['name', 'id']
+          }
+        ]
       });
   
       if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
@@ -43,7 +49,7 @@ router.post( '/', validateLogin, async (req, res, next) => {
         firstName: user.firstName,
         lastName: user.lastName,
         isAdmin: user.isAdmin,
-        orgId: user.orgId
+        Organization: user.Organization
       };
   
       await setTokenCookie(res, safeUser);
@@ -70,7 +76,7 @@ router.get('/', (req, res) => {
           firstName: user.firstName,
           lastName: user.lastName,
           isAdmin: user.isAdmin,
-          orgId: user.orgId
+          Organization: user.Organization
         };
         return res.json({
           user: safeUser

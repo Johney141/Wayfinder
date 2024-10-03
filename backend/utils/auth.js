@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User } = require('../db/models');
+const { User, Organization } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -50,7 +50,13 @@ const restoreUser = (req, res, next) => {
         req.user = await User.findByPk(id, {
           attributes: {
             include: ['email', 'createdAt', 'updatedAt']
-          }
+          },
+          include: [
+            {
+              model: Organization,
+              attributes: ['name', 'id']
+            }
+          ]
         });
       } catch (e) {
         res.clearCookie('token');
@@ -73,4 +79,21 @@ const requireAuth = function (req, _res, next) {
     return next(err);
 }
 
-module.exports = { setTokenCookie, restoreUser, requireAuth };
+const requireOrg = function (req, _res, next) {
+  const orgId = parseInt(req.params.orgId);
+  const userOrg = req.user.orgId;
+
+  if(req.user && orgId === userOrg) return next();
+
+  const err = new Error('Forbidden')
+  err.status = 401
+  return next(err);
+}
+
+const requireAdmin = (req, _res, next) => {
+  if(req.user.isAdmin) return next();
+  const err = new Error('Forbidden')
+  err.status = 401;
+  return next(err)
+}
+module.exports = { setTokenCookie, restoreUser, requireAuth, requireOrg, requireAdmin };

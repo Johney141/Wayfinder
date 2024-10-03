@@ -37,6 +37,10 @@ module.exports = {
       orgId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Organizations'
+        },
+        onDelete: 'cascade'
       },
       createdAt: {
         allowNull: false,
