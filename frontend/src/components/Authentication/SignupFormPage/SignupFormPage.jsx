@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../../store/session';
 import './SignupFormPage.css'
 
@@ -108,9 +107,9 @@ function SignupFormPage() {
         className='auth-input'>
           Organization Name
           <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </label>

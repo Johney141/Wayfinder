@@ -17,7 +17,7 @@ function OrgLayout() {
     if(compareOrgId !== userOrgId) return (
         <>
             <h1 className="Title">Wayfinder</h1>
-            <div className="not-auth">You must be apart of an Organization in order to view it's content. If you are a part of this Organization please contact your Organization's admin.</div>
+            <div className="not-auth">You must be apart of an Organization in order to view it&apos;s content. If you are a part of this Organization please contact your Organization&apos;s admin.</div>
         </>
     )
 

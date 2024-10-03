@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import './OrgHome.css'
+// import { useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { useNavigate, useParams } from "react-router-dom";
+// import './OrgHome.css'
 
 function OrgHome () {
     return (

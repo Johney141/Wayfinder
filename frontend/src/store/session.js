@@ -9,12 +9,12 @@ const setUser = (user) => {
     payload: user
   };
 };
-
-const removeUser = () => {
-  return {
-    type: REMOVE_USER
-  };
-};
+// Uncomment when logout feature is made
+// const removeUser = () => {
+//   return {
+//     type: REMOVE_USER
+//   };
+// };
 
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
