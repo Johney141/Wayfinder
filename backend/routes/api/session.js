@@ -30,7 +30,7 @@ router.post( '/', validateLogin, async (req, res, next) => {
         include: [
           {
             model: Organization,
-            attributes: ['name']
+            attributes: ['name', 'id']
           }
         ]
       });
@@ -69,7 +69,6 @@ router.delete('/', (_req, res) => {
 // Restore Session user
 router.get('/', (req, res) => {
       const { user } = req;
-      console.log("User info: ", user);
       if (user) {
         const safeUser = {
           id: user.id,

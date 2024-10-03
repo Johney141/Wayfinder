@@ -42,6 +42,7 @@ function SignupFormPage() {
 
   return (
     <div className='auth-container'>
+      <h1 className='title'>Wayfinder</h1>
       <form onSubmit={handleSubmit} className='auth-form'>
         <h1 id='signup-title'>Sign Up</h1>
         <h4 className='signup-subheading'>Your Information</h4>

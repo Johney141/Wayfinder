@@ -2,7 +2,10 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import LoginFormPage from './components/Authentication/LoginFormPage/LoginFormPage.jsx'
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
+import * as sessionActions from './store/session.js'
 import SignupFormPage from './components/Authentication/SignupFormPage/SignupFormPage.jsx';
+import OrgLayout from './components/Organization/OrgLayout/OrgLayout.jsx';
+import OrgHome from './components/Organization/OrgHome/OrgHome.jsx';
 
 
 function Layout() {
@@ -31,8 +34,18 @@ const router = createBrowserRouter([
         element: <LoginFormPage />
       },
       {
-        path: '/signup',
+        path: 'signup',
         element: <SignupFormPage />
+      },
+      {
+        path: ':orgId',
+        element: <OrgLayout />,
+        children: [
+          {
+            path: 'home',
+            element: <OrgHome />
+          }
+        ]
       }
     ]
   }

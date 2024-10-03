@@ -54,7 +54,7 @@ const restoreUser = (req, res, next) => {
           include: [
             {
               model: Organization,
-              attributes: ['name']
+              attributes: ['name', 'id']
             }
           ]
         });

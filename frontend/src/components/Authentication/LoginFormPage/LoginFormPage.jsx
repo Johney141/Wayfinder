@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import * as sessionActions from '../../../store/session';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './LoginFormPage.css'
 
@@ -27,7 +27,7 @@ function LoginFormPage() {
 
   return (
     <div className='auth-container'>
-      
+      <h1 className='title'>Wayfinder</h1>
       <form onSubmit={handleSubmit} className='auth-form'>
         <h1 id='auth-title'>Log In</h1>
         <label
@@ -56,7 +56,7 @@ function LoginFormPage() {
         <p 
           onClick={() => navigate('/signup')}
           id='signup-link'>
-            Aren't signed up yet? Click here to create an Organization
+            Aren&apos;t signed up yet? Click here to create an Organization
           </p>
         <button type="submit" className='auth-button'>Log In</button>
       </form>
