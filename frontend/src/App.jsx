@@ -6,6 +6,7 @@ import * as sessionActions from './store/session.js'
 import SignupFormPage from './components/Authentication/SignupFormPage/SignupFormPage.jsx';
 import OrgLayout from './components/Organization/OrgLayout/OrgLayout.jsx';
 import OrgHome from './components/Organization/OrgHome/OrgHome.jsx';
+import OrgSearch from './components/Organization/OrgSearch/OrgSearch.jsx';
 
 
 function Layout() {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
           {
             path: 'home',
             element: <OrgHome />
+          },
+          {
+            path: 'search',
+            element: <OrgSearch />
           }
         ]
       }

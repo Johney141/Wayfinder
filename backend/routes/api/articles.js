@@ -41,7 +41,6 @@ router.get('/:orgId/search', requireOrg, async (req, res, next) => {
             ]
         })
 
-        if(!articles.length) return next(new Error('No Articles found'))
 
         res.json({Articles: articles})
     } catch (error) {

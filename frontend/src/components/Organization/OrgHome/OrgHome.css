@@ -1,0 +1,12 @@
+
+
+.home-container {
+    font-family: 'Montserrat', sans-serif;
+    width: 100%;
+    min-height: 100vh;
+    color: rgba(225, 245, 225, 0.993); 
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+.

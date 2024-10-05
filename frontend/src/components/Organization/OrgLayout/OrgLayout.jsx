@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useParams } from "react-router-dom";
 import './OrgLayout.css';
+import Navigation from "../Navigation/Navigation";
 
 
 function OrgLayout() {
@@ -22,7 +23,10 @@ function OrgLayout() {
     )
 
     return (
-        <Outlet />
+        <>
+            <Navigation />
+            <Outlet />
+        </>
     )
 
 }

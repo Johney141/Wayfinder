@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as sessionActions from '../../../store/session';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './LoginFormPage.css'
 
@@ -10,9 +10,15 @@ function LoginFormPage() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const user = useSelector(state => state.sessionState.user);
+  const orgId = user.Organization.id;
   const navigate = useNavigate();
 
-
+  useEffect(() => {
+    if(user) {
+      navigate(`/${orgId}/home`)
+    }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault();
