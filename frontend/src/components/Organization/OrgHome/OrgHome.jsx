@@ -21,7 +21,7 @@ function OrgHome () {
         if(!isLoaded) {
             getRecentArticles();
         }
-    })
+    }, [isLoaded])
     
     if(!isLoaded) {
         return <Loading />
@@ -29,15 +29,15 @@ function OrgHome () {
 
 
     return (
-        <div className="home-container">
+        <div className="page-container">
             <h1>Recent Updates</h1>
-            <div className='recent-updates'>
+            <div className='article-container'>
                 {recentArticles.length ? (
                     recentArticles.map(article => (
                     <div 
-                    className='recent-article' 
+                    className='article' 
                     key={article.id}
-                    onClick={() => navigate(`/${orgId}/${article.id}`)}>
+                    onClick={() => navigate(`/${orgId}/articles/${article.id}`)}>
                         <h3>{article.title}</h3>
                         <p>{article.body.slice(0, 187)}...</p>
                     </div>

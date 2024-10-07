@@ -11,6 +11,7 @@ function ProfileButton() {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
   const navigate = useNavigate();
+  const orgId = user.Organization.id
 
   const toggleMenu = (e) => {
     e.stopPropagation(); 
@@ -31,7 +32,7 @@ function ProfileButton() {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  // const closeMenu = () => setShowMenu(false);
+  const closeMenu = () => setShowMenu(false);
 
   const logout = (e) => {
     e.preventDefault();
@@ -39,9 +40,15 @@ function ProfileButton() {
     navigate('/')
   };
 
-  const handleMangeSpots = (e) => {
+  const handleProfileClick = (e) => {
     e.preventDefault();
     navigate('/spots/current')
+    closeMenu();
+  }
+  const handleCreateClick = (e) => {
+    e.preventDefault();
+    navigate(`/${orgId}/articles/create`);
+    closeMenu();
   }
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -59,12 +66,23 @@ function ProfileButton() {
             </div>
             <div>
               <button
-                onClick={handleMangeSpots}
-                id='manageSpots'
+                onClick={handleProfileClick}
+                id='profile'
               >
                 Profile
               </button>
             </div>
+            {user.isAdmin ? (
+              <div className='admin-block'>
+                <button
+                  onClick={handleCreateClick}
+                  id='create-article'
+                  >
+                  Create a new Article
+                </button>
+              </div>
+            )
+            : null}
             <div>
               <button 
                 onClick={logout} 

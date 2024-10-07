@@ -8,6 +8,7 @@ import OrgLayout from './components/Organization/OrgLayout/OrgLayout.jsx';
 import OrgHome from './components/Organization/OrgHome/OrgHome.jsx';
 import OrgSearch from './components/Organization/OrgSearch/OrgSearch.jsx';
 import OrgDetails from './components/Organization/OrgDetails/OrgDetails.jsx';
+import ArticleForm from './components/Organization/ArticleForm/ArticleForm.jsx';
 
 
 function Layout() {
@@ -48,13 +49,17 @@ const router = createBrowserRouter([
             element: <OrgHome />
           },
           {
-            path: 'search',
+            path: 'articles/search',
             element: <OrgSearch />
           }, 
           {
-            path: ':articleId',
+            path: 'articles/create',
+            element: <ArticleForm />
+          },
+          {
+            path: 'articles/:articleId',
             element: <OrgDetails /> 
-          }
+          },
         ]
       }
     ]

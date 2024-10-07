@@ -16,7 +16,7 @@ function Navigation() {
         e.preventDefault();
         const trimmedSearch = search.trim();
         if(trimmedSearch) {
-            navigate(`/${orgId}/search?q=${trimmedSearch}`)
+            navigate(`/${orgId}/articles/search?q=${trimmedSearch}`)
         }
         setSerach('')
     }

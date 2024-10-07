@@ -1,1 +1,34 @@
+.detail-container {
+    font-family: 'Montserrat', sans-serif;
+    width: 100%;
+    color: rgb(247, 247, 247); 
+    padding: 20px;
+    display: flex;
+    flex-direction: column; 
+    overflow: hidden; /* Prevent overflow at this level */
+}
 
+.article-container {
+    flex: 1; 
+    overflow-y: auto; 
+    margin-bottom: 20px; 
+}
+
+.comments-container {
+    background-color: white;
+    border-radius: 1rem;
+    width: 75%;
+    color: black;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.comment {
+    border-bottom: 1px solid lightgrey;
+
+    padding: .5rem 1rem;
+}
+
+.author {
+    color: darkgrey;
+}
