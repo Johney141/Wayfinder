@@ -7,6 +7,7 @@ import SignupFormPage from './components/Authentication/SignupFormPage/SignupFor
 import OrgLayout from './components/Organization/OrgLayout/OrgLayout.jsx';
 import OrgHome from './components/Organization/OrgHome/OrgHome.jsx';
 import OrgSearch from './components/Organization/OrgSearch/OrgSearch.jsx';
+import OrgDetails from './components/Organization/OrgDetails/OrgDetails.jsx';
 
 
 function Layout() {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
           {
             path: 'search',
             element: <OrgSearch />
+          }, 
+          {
+            path: ':articleId',
+            element: <OrgDetails /> 
           }
         ]
       }

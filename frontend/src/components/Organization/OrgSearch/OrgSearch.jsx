@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom"
 import { getSearchArticlesThunk } from "../../../store/articles";
+import Loading from "../../Utilities/Loading/Loading";
 
 
 function OrgSearch() {
@@ -27,7 +28,7 @@ function OrgSearch() {
     }, [orgId, search, dispatch]);
 
     if(!isLoaded) {
-        return <h1>Lodaing...</h1>
+        return <Loading />
     }
 
 

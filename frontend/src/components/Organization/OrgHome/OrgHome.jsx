@@ -3,6 +3,7 @@ import './OrgHome.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { getRecentArticlesThunk } from '../../../store/articles';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../Utilities/Loading/Loading';
 
 function OrgHome () {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -23,7 +24,7 @@ function OrgHome () {
     })
     
     if(!isLoaded) {
-        return <h1>Lodaing...</h1>
+        return <Loading />
     }
 
 
@@ -38,7 +39,7 @@ function OrgHome () {
                     key={article.id}
                     onClick={() => navigate(`/${orgId}/${article.id}`)}>
                         <h3>{article.title}</h3>
-                        <p>{article.body.slice(0, 100)}</p>
+                        <p>{article.body.slice(0, 187)}...</p>
                     </div>
                 ))) 
                 : (
