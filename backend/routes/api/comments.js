@@ -33,7 +33,14 @@ router.post('/:orgId/:articleId', requireOrg, validateComment, async (req, res, 
             articleId
         })
 
-        return res.status(201).json(newComment);
+        const fullComment = await Comments.findByPk(newComment.id, {
+            include: {
+                model: User, 
+                attributes: ['firstName', 'lastName'] 
+            }
+        });
+
+        return res.status(201).json(fullComment);
     } catch (error) {
         next(error)
     }

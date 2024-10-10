@@ -4,6 +4,8 @@ const GET_RECENT_ARTICLES = 'articles/getRecentArticles';
 const GET_ARTICLE_DETAILS = 'articles/getArticleDetails';
 const CREATE_ARTICLE = 'articles/createArticle';
 const UPDATE_ARTICLE = 'articles/updateArticle';
+const DELETE_ARTICLE = 'articles/deleteArticle';
+const CREATE_COMMENT = 'comments/createComment';
 
 // Action Creators
 const getSearchArticles = (articles) => {
@@ -41,6 +43,19 @@ const updateArticle = (article) => {
     }
 }
 
+const deleteArticle = (article) => {
+    return {
+        type: DELETE_ARTICLE,
+        payload: article
+    }
+}
+
+const createComment = (comment) => {
+    return {
+        type: CREATE_COMMENT,
+        payload: comment
+    }
+}
 
 
 
@@ -138,6 +153,50 @@ export const updateArticleThunk = (orgId, articleId, articleBody) => async (disp
     }
 }
 
+export const deleteArticleThunk = (orgId, articleId) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        };
+        const res = await csrfFetch(`/api/articles/${orgId}/${articleId}`, options);
+
+        if(res.ok) {
+            const article = await res.json();
+            dispatch(deleteArticle(article))
+            return article
+        } else {
+            throw res;
+        }
+    } catch (error) {
+        const err = await error.json();
+        return err;
+    }
+}
+
+export const createCommentThunk = (orgId, articleId, commentBody) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(commentBody)
+        };
+
+        const res = await csrfFetch(`/api/comments/${orgId}/${articleId}`, options);
+        if(res.ok) {
+            const comment = await res.json();
+            dispatch(createComment(comment))
+            return comment
+        } else {
+            throw res;
+        }
+
+    } catch (error) {
+        const err = await error.json();
+        return err;
+    }
+}
+
 // Reducer
 
 const initialState = {
@@ -173,8 +232,8 @@ const articleReducer = (state=initialState, action) => {
             newState = {...state};
             console.log(newState)
 
-            const updatedAllArticles = newState.allArticles.map(spot =>
-                spot.id === action.payload.id ? action.payload : spot
+            const updatedAllArticles = newState.allArticles.map(article =>
+                article.id === action.payload.id ? action.payload : article
             );
             newState.allArticles = updatedAllArticles;
 
@@ -182,6 +241,38 @@ const articleReducer = (state=initialState, action) => {
 
             return newState;
         }
+        case DELETE_ARTICLE: 
+            newState = {...state};
+
+            newState.allArticles = newState.allArticles.filter(article => {
+                article.id !== action.payload.article.id
+            })
+
+            delete newState.byId[action.payload.article.id]
+
+            return newState
+        case CREATE_COMMENT: 
+            newState = {...state};
+            newState.allArticles = newState.allArticles.map(article => {
+                if(article.id === action.payload.articleId) {
+                    return {
+                        ...article,
+                        Comments: [...article.Comments, action.payload]
+                    }
+                } else {
+                    return article
+                }
+            });
+
+            newState.byId = {
+                ...newState.byId,
+                [action.payload.articleId]: {
+                    ...newState.byId[action.payload.articleId],
+                    Comments: [...newState.byId[action.payload.articleId].Comments, action.payload]
+                }
+            };
+
+            return newState;
         default:
             return state
     }

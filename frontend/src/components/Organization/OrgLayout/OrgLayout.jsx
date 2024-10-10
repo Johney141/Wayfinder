@@ -8,7 +8,7 @@ function OrgLayout() {
     const { orgId } = useParams();
     const compareOrgId = parseInt(orgId)
     const currentUser = useSelector(state => state.sessionState.user);
-    const userOrgId = currentUser.Organization.id;
+    const userOrgId = currentUser?.Organization?.id;
 
     if(!currentUser) {
         return <Navigate to="/" replace />;

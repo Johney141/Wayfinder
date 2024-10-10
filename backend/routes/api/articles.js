@@ -85,16 +85,17 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
                 },
                 {
                     model: Comments,
-                    attributes: ['comment', 'id', 'createdAt', 'updatedAt'],
+                    attributes: ['comment', 'id', 'createdAt', 'updatedAt', 'articleId'],
                     include: [
                         {
                             model: User,
-                            attributes: ['firstName', 'lastName']
+                            attributes: ['firstName', 'lastName', 'id']
                         }
                     ],
-                    required: false
+                    required: false, 
                 }
-            ]
+            ],
+            order: [[{ model: Comments }, 'updatedAt', 'DESC']]
         })
         if(!article) return next(new Error('Article not found'));
 
@@ -147,7 +148,7 @@ router.put('/:orgId/:articleId', requireOrg, requireAdmin, validateArticle, asyn
         const userId = req.user.id;
         const orgId = parseInt(req.params.orgId);
         const articleId = parseInt(req.params.articleId);
-        const article = await Articles.findByPk(articleId)
+        const article = await Articles.findByPk(articleId);
         
         if(!article) {
             const err = new Error('Article not found')
