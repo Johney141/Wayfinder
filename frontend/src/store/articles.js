@@ -3,6 +3,7 @@ const GET_SEARCH_ARTICLES = 'articles/getSearchArticles';
 const GET_RECENT_ARTICLES = 'articles/getRecentArticles';
 const GET_ARTICLE_DETAILS = 'articles/getArticleDetails';
 const CREATE_ARTICLE = 'articles/createArticle';
+const UPDATE_ARTICLE = 'articles/updateArticle';
 
 // Action Creators
 const getSearchArticles = (articles) => {
@@ -29,6 +30,13 @@ const getArticleDetails = (article) => {
 const createArticle = (article) => {
     return {
         type: CREATE_ARTICLE,
+        payload: article
+    }
+}
+
+const updateArticle = (article) => {
+    return {
+        type: UPDATE_ARTICLE,
         payload: article
     }
 }
@@ -107,6 +115,29 @@ export const createArticleThunk = (orgId, articleBody) => async (dispatch) => {
     }
 }
 
+export const updateArticleThunk = (orgId, articleId, articleBody) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(articleBody)
+        };
+
+        const res = await csrfFetch(`/api/articles/${orgId}/${articleId}`, options);
+        
+        if(res.ok) {
+            const article = await res.json();
+            dispatch(updateArticle(article))
+            return article
+        } else {
+            throw res;
+        }
+    } catch (error) {
+        const err = await error.json();
+        return err;
+    }
+}
+
 // Reducer
 
 const initialState = {
@@ -128,7 +159,7 @@ const articleReducer = (state=initialState, action) => {
             return newState;
         case GET_ARTICLE_DETAILS: 
             newState = {...state};
-            newState.allArticles = action.payload;
+            newState.allArticles = [action.payload];
             newState.byId[action.payload.id] = action.payload;
             return newState
         case CREATE_ARTICLE: 
@@ -138,6 +169,19 @@ const articleReducer = (state=initialState, action) => {
 
             newState.byId = {...newState.byId, [action.payload.id]: action.payload};
             return newState
+        case UPDATE_ARTICLE: {
+            newState = {...state};
+            console.log(newState)
+
+            const updatedAllArticles = newState.allArticles.map(spot =>
+                spot.id === action.payload.id ? action.payload : spot
+            );
+            newState.allArticles = updatedAllArticles;
+
+            newState.byId = {...newState.byId, [action.payload.id]: action.payload};
+
+            return newState;
+        }
         default:
             return state
     }

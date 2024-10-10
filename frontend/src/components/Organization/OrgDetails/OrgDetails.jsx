@@ -2,16 +2,19 @@ import { useEffect, useState } from 'react'
 import './OrgDetails.css'
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../../Utilities/Loading/Loading';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getArticleDetailsThunk } from '../../../store/articles';
+import { CiEdit } from "react-icons/ci";
 
 function OrgDetails() {
     const [isLoaded, setIsLoaded] = useState(false);
     const { articleId } = useParams();
-    const orgId = useSelector(state => state.sessionState.user.Organization.id);
+    const user = useSelector(state => state.sessionState.user);
+    const orgId = user.Organization.id
     const article = useSelector(state => state.articleState.byId[articleId]);
     const paragraphs = article.body.split('\n');
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     
     useEffect(() => {
@@ -23,7 +26,7 @@ function OrgDetails() {
         if(!isLoaded) {
             getArticleDetails();
         }
-    }, [isLoaded]);
+    }, [isLoaded, dispatch, orgId, articleId]);
 
     if(!isLoaded) {
         return <Loading />
@@ -31,7 +34,12 @@ function OrgDetails() {
 
     return (
         <div className='detail-container'>
-            <h1>{article.title}</h1>
+            <div className='article-header'>
+                <h1>{article.title}</h1>
+                {user.isAdmin ? (<CiEdit id='edit-article' onClick={() => navigate('edit')}/>) 
+                :
+                 null}
+            </div>
             <div className='article-container'>
             {paragraphs.map((para, idx) => (
                 <p key={idx}>{para}</p>

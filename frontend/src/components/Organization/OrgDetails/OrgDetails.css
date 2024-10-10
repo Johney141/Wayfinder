@@ -5,7 +5,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column; 
-    overflow: hidden; /* Prevent overflow at this level */
+    overflow: hidden; 
 }
 
 .article-container {
@@ -31,4 +31,16 @@
 
 .author {
     color: darkgrey;
+}
+
+.article-header {
+    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#edit-article {
+    font-size: 1.5rem;
+    cursor: pointer;
 }

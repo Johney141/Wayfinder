@@ -12,6 +12,6 @@ function Loading() {
                 style={{width: 350, height: 350}} />
         </div>
     )
-};
+}
 
 export default Loading

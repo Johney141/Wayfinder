@@ -9,6 +9,7 @@ import OrgHome from './components/Organization/OrgHome/OrgHome.jsx';
 import OrgSearch from './components/Organization/OrgSearch/OrgSearch.jsx';
 import OrgDetails from './components/Organization/OrgDetails/OrgDetails.jsx';
 import ArticleForm from './components/Organization/ArticleForm/ArticleForm.jsx';
+import UpdateForm from './components/Organization/UpdateForm/UpdateForm.jsx';
 
 
 function Layout() {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
           {
             path: 'articles/:articleId',
             element: <OrgDetails /> 
+          },
+          {
+            path: 'articles/:articleId/edit',
+            element: <UpdateForm />
           },
         ]
       }

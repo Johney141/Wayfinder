@@ -32,13 +32,13 @@
 }
 
 #form-title {
-    max-width: 100%; /* Ensures responsiveness */
+    max-width: 100%; 
 }
 
 #article-body {
     height: 200px;
     resize: vertical;
-    max-width: 100%; /* Ensures responsiveness */
+    max-width: 100%; 
     line-height: 1.6;
 }
 
@@ -59,3 +59,24 @@
     }
 }
 
+.article-button {
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    background-size: 200%;
+    background-position: 0 0;
+    color: white;
+    width: 75%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-position 1s ease, box-shadow 0.3s ease;
+    display: inline-block;
+}
+
+.article-button:hover {
+    background-position: 100% 0; 
+    box-shadow: 0px 8px 15px rgba(0, 114, 255, 0.3);
+}

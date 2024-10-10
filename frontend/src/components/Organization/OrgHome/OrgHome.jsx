@@ -21,7 +21,7 @@ function OrgHome () {
         if(!isLoaded) {
             getRecentArticles();
         }
-    }, [isLoaded])
+    }, [isLoaded, dispatch, orgId])
     
     if(!isLoaded) {
         return <Loading />
@@ -39,7 +39,9 @@ function OrgHome () {
                     key={article.id}
                     onClick={() => navigate(`/${orgId}/articles/${article.id}`)}>
                         <h3>{article.title}</h3>
-                        <p>{article.body.slice(0, 187)}...</p>
+                        {article.body.length >= 187 ? (<p>{article.body.slice(0, 187)}...</p>) :
+                            (<p>{article.body}</p>)
+                        }
                     </div>
                 ))) 
                 : (

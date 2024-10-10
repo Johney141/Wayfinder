@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import './ArticleForm.css';
+import './UpdateForm.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { createArticleThunk } from '../../../store/articles';
+import { useNavigate, useParams } from 'react-router-dom';
+import { updateArticleThunk } from '../../../store/articles';
 
-function ArticleForm() {
-    const [title, setTitle] = useState('');
-    const [body, setBody] = useState('');
+function UpdateForm() {
+    const {articleId} = useParams()
+    const article = useSelector(state => state.articleState.byId[articleId])
+    const [title, setTitle] = useState(article.title);
+    const [body, setBody] = useState(article.body);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -20,8 +22,8 @@ function ArticleForm() {
             title,
             body
         };
-    
-        const article = await dispatch(createArticleThunk(orgId, articleBody));
+        console.log(articleBody)
+        const article = await dispatch(updateArticleThunk(orgId, articleId, articleBody));
     
         if (article?.errors) {
             if (article.errors.title) {
@@ -38,7 +40,7 @@ function ArticleForm() {
 
     return (
         <div className='page-container'>
-            <h1>Create a new Article</h1>
+            <h1>Update an Article</h1>
             <form onSubmit={handleSubmit} className='form-container'>
                 <label className='form-input'>
                     Title
@@ -62,12 +64,11 @@ function ArticleForm() {
                 </label>
                 {errors.body && <p className='error'>{errors.body}</p>}
 
-                <button type='submit' className='article-button'>Create Article</button>
+                <button type='submit' className='article-button'>Update Article</button>
             </form>
         </div>
     )
 }
 
 
-
-export default ArticleForm;
+export default UpdateForm
