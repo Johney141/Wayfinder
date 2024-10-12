@@ -6,6 +6,8 @@ const CREATE_ARTICLE = 'articles/createArticle';
 const UPDATE_ARTICLE = 'articles/updateArticle';
 const DELETE_ARTICLE = 'articles/deleteArticle';
 const CREATE_COMMENT = 'comments/createComment';
+const UPDATE_COMMENT = 'comments/updateComment';
+const DELETE_COMMENT = 'comments/deleteComment';
 
 // Action Creators
 const getSearchArticles = (articles) => {
@@ -53,6 +55,20 @@ const deleteArticle = (article) => {
 const createComment = (comment) => {
     return {
         type: CREATE_COMMENT,
+        payload: comment
+    }
+}
+
+const updateComment = (comment) => {
+    return {
+        type: UPDATE_COMMENT,
+        payload: comment
+    }
+}
+
+const deleteComment = (comment) => {
+    return {
+        type: DELETE_COMMENT,
         payload: comment
     }
 }
@@ -197,6 +213,49 @@ export const createCommentThunk = (orgId, articleId, commentBody) => async (disp
     }
 }
 
+export const updateCommentThunk = (orgId, commentId, commentBody) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(commentBody)
+        };
+
+        const res = await csrfFetch(`/api/comments/${orgId}/${commentId}`, options);
+
+        if(res.ok) {
+            const comment = await res.json();
+            dispatch(updateComment(comment))
+            return comment
+        } else {
+            throw res;
+        }
+    } catch (error) {
+        const err = await error.json();
+        return err;
+    }
+}
+
+export const deleteCommentThunk = (orgId, commentId) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        };
+        const res = await csrfFetch(`/api/comments/${orgId}/${commentId}`, options);
+
+        if(res.ok) {
+            const comment = await res.json();
+            dispatch(deleteComment(comment))
+            return comment
+        } else {
+            throw res;
+        }
+    } catch (error) {
+        const err = await error.json();
+        return err;
+    }
+}
 // Reducer
 
 const initialState = {
@@ -272,6 +331,54 @@ const articleReducer = (state=initialState, action) => {
                 }
             };
 
+            return newState;
+        case UPDATE_COMMENT: 
+            newState = {...state};
+
+            newState.allArticles = newState.allArticles.map(article => {
+                if(article.id === action.payload.articleId) {
+                    return {
+                        ...article,
+                        Comments: article.Comments.map(comment => {
+                            return comment.id === action.payload.id ? action.payload : comment;
+                        })
+                    }
+                } else {
+                    return article
+                }
+            });
+
+            newState.byId = {...newState.byId, [action.payload.articleId]: {
+                ...newState.byId[action.payload.articleId],
+                Comments: newState.byId[action.payload.articleId].Comments.map(comment => {
+                    return comment.id === action.payload.id ? action.payload : comment;
+                })
+            }}
+            return newState
+        case DELETE_COMMENT: 
+            newState = {...state};
+
+            newState.allArticles = newState.allArticles.map(article => {
+                if(article.id === action.payload.comment.articleId) {
+                    return {
+                        ...article,
+                        Comments: article.Comments.filter(comment => {
+                            comment.id !== action.payload.comment.id;
+                        })
+                    }
+                } else {
+                    return article
+                }
+            })
+
+            newState.byId = {
+                ...newState.byId,
+                [action.payload.comment.articleId]: {
+                    ...newState.byId[action.payload.comment.articleId],
+                    Comments: newState.byId[action.payload.comment.articleId].Comments.filter(comment => 
+                        comment.id !== action.payload.comment.id)
+                }
+            };
             return newState;
         default:
             return state

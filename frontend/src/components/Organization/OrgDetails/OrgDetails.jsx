@@ -81,11 +81,11 @@ function OrgDetails() {
                         <div className='author-actions'>
                                 <OpenModalButton 
                                     icon={<CiEdit className='update-icon' />}
-                                    modalComponent={<UpdateComment />}
+                                    modalComponent={<UpdateComment orgId={orgId} comment={comment} commentUpdated={handleComment}/>}
                                 />
                                 <OpenModalButton 
                                     icon={<CiTrash className='delete-icon' />}
-                                    modalComponent={<DeleteComment />}
+                                    modalComponent={<DeleteComment orgId={orgId} commentId={comment.id} commentDeleted={handleComment}/>}
                                 />
                         </div>
                     ): null}

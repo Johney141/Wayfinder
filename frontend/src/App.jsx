@@ -10,6 +10,7 @@ import OrgSearch from './components/Organization/OrgSearch/OrgSearch.jsx';
 import OrgDetails from './components/Organization/OrgDetails/OrgDetails.jsx';
 import ArticleForm from './components/Organization/ArticleForm/ArticleForm.jsx';
 import UpdateForm from './components/Organization/UpdateForm/UpdateForm.jsx';
+import CreateUser from './components/Authentication/CreateUser/CreateUser.jsx';
 
 
 function Layout() {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
           {
             path: 'home',
             element: <OrgHome />
+          },
+          {
+            path: 'create-user',
+            element: <CreateUser />
           },
           {
             path: 'articles/search',

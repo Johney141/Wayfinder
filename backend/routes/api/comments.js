@@ -51,7 +51,12 @@ router.put('/:orgId/:commentId', requireOrg, validateComment, async (req, res, n
     try {
         const { comment } = req.body;
         const commentId = parseInt(req.params.commentId);
-        const updateComment = await Comments.findByPk(commentId)
+        const updateComment = await Comments.findByPk(commentId, {
+            include: {
+                model: User,
+                attributes: ['firstName', 'lastName']
+            }
+        })
         const userId = req.user.id;
 
         if(!updateComment) {
