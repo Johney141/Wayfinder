@@ -40,14 +40,19 @@ function ProfileButton() {
     navigate('/')
   };
 
-  const handleProfileClick = (e) => {
+  const handleOrgClick = (e) => {
     e.preventDefault();
-    navigate('/spots/current')
-    closeMenu();
+    alert('Organization View Coming Soon')
   }
+  
   const handleCreateClick = (e) => {
     e.preventDefault();
     navigate(`/${orgId}/articles/create`);
+    closeMenu();
+  }
+  const handleUserClick = (e) => {
+    e.preventDefault();
+    navigate(`/${orgId}/create-user`);
     closeMenu();
   }
 
@@ -64,12 +69,14 @@ function ProfileButton() {
               <p>Hello, {user.firstName}</p>
               <p>{user.email}</p>
             </div>
-            <div>
+            <div
+              className='profile-section'
+            >
               <button
-                onClick={handleProfileClick}
-                id='profile'
+                onClick={handleOrgClick}
+                id='organization'
               >
-                Profile
+                Organization
               </button>
             </div>
             {user.isAdmin ? (
@@ -79,6 +86,12 @@ function ProfileButton() {
                   id='create-article'
                   >
                   Create a new Article
+                </button>
+                <button
+                  onClick={handleUserClick}
+                  id='create-user'
+                >
+                  Create a new user
                 </button>
               </div>
             )

@@ -1,19 +1,27 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import * as sessionActions from '../../../store/session';
 import './SignupFormPage.css'
+import { useNavigate } from 'react-router-dom';
 
 function SignupFormPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("")
+  const user = useSelector(state => state.sessionState.user);
   const [errors, setErrors] = useState({});
 
-  
+  useEffect(() => {
+    if(user) {
+      const orgId = user.Organization.id;
+      navigate(`/${orgId}/home`)
+    }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -25,7 +25,7 @@ function UpdateComment({orgId, comment, commentUpdated}) {
     }
 
     return (
-        <div >
+        <div className="modal-container" >
             <h1>Update your Comment</h1>
             <form onSubmit={handleSubmit}>
                 <input 

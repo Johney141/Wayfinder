@@ -60,7 +60,6 @@ router.get('/:orgId/recent', requireOrg, async (req, res, next) => {
             limit: 5
         });
 
-        if(!articles.length) return next(new Error('No recent Articles'));
 
         return res.json({Articles: articles})
     } catch (error) {

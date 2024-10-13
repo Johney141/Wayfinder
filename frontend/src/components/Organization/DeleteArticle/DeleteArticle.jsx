@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useModal } from "../../../context/Modal";
 import { deleteArticleThunk } from "../../../store/articles";
+import './DeleteArticle.css'
 
 
 
@@ -21,7 +22,7 @@ function DeleteArticle({orgId, articleId, navigate}) {
     }
 
     return (
-        <div>
+        <div className="modal-container">
             <h1>Confirm Delete</h1>
             <p>Are you use you want to delete this article?</p>
             <button

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createCommentThunk } from "../../../../store/articles";
+import './CreateComment.css'
 
 
 
@@ -25,7 +26,7 @@ function CreateComment({orgId, articleId, commentCreated}) {
     
     return(
         <form onSubmit={handleSubmit}>
-            <label>
+            <label id="create-comment">
                 Post your comment
                 <input 
                     type="text"
@@ -35,6 +36,7 @@ function CreateComment({orgId, articleId, commentCreated}) {
             </label>
             <button
                 type="submit"
+                id="comment-button"
                 disabled={!comment.length ? true : false}
             >Post</button>
         </form>

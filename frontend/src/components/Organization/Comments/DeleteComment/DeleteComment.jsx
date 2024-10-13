@@ -18,15 +18,15 @@ function DeleteComment({orgId, commentId, commentDeleted}) {
             })
     }
     return (
-        <div>
+        <div className="modal-container">
             <h1>Confirm Delete</h1>
-            <p>Are you sure you want to delete this article?</p>
+            <p>Are you sure you want to delete this comment?</p>
             <button
                 onClick={e => handleDelete(e)}
-            >Yes (Delete Article)</button>
+            >Yes (Delete Comment)</button>
                         <button
                 onClick={closeModal}
-            >No (Keep Article)</button>
+            >No (Keep Comment)</button>
         </div>
     )
 }

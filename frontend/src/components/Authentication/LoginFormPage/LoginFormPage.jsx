@@ -11,11 +11,11 @@ function LoginFormPage() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const user = useSelector(state => state.sessionState.user);
-  const orgId = user.Organization.id;
   const navigate = useNavigate();
 
   useEffect(() => {
     if(user) {
+      const orgId = user.Organization.id;
       navigate(`/${orgId}/home`)
     }
   })
