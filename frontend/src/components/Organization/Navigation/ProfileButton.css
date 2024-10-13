@@ -1,0 +1,121 @@
+.hidden {
+    display: none;
+}
+
+.dropdown-menu {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    right: 1em;
+    cursor: pointer;
+    color: white;
+}
+
+.user-container,
+.profile-container {
+    box-shadow: 0 0 3px grey;
+    border-radius: 3px;
+    width: auto; /* Allow the width to adjust based on content */
+    padding: 1rem; /* Add padding for spacing */
+    right: 10px;
+    position: absolute;
+    background-color: #7DA367;
+    max-width: 15rem; /* Set a max-width to prevent overflow */
+}
+
+.user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.user-info {
+    font-size: .95rem;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 1rem;
+    text-align: center;
+    word-wrap: break-word; /* Ensure long content wraps */
+    width: 100%; /* Ensure it takes up the full container */
+
+}
+
+.dropdown-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.dropdown-button:hover {
+    text-decoration: underline;
+}
+
+.profile-section {
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 1rem;
+}
+
+#organization {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background: none;
+    font-size: .95rem;
+    width: 100%; 
+    padding-bottom: 1rem;
+    transition: color 0.3s;
+}
+
+#organization:hover {
+    color: lightgray;
+}
+
+.admin-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%; /* Ensure consistent width */
+}
+
+#create-user, 
+#create-article {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    border: none;
+    cursor: pointer;
+    background: none;
+    font-size: .95rem;
+    width: 100%; /* Ensure consistent width */
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    transition: color 0.3s;
+}
+
+#create-article:hover,
+#create-user:hover {
+    color: lightgray;
+}
+
+#logoutButton {
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #FF385C;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    width: 100%; /* Ensure button stretches across */
+}
+
+#logoutButton:hover {
+    background-color: #a31129;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}

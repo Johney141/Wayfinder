@@ -1,13 +1,14 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useParams } from "react-router-dom";
 import './OrgLayout.css';
+import Navigation from "../Navigation/Navigation";
 
 
 function OrgLayout() {
     const { orgId } = useParams();
     const compareOrgId = parseInt(orgId)
     const currentUser = useSelector(state => state.sessionState.user);
-    const userOrgId = currentUser.Organization.id;
+    const userOrgId = currentUser?.Organization?.id;
 
     if(!currentUser) {
         return <Navigate to="/" replace />;
@@ -22,7 +23,10 @@ function OrgLayout() {
     )
 
     return (
-        <Outlet />
+        <>
+            <Navigation />
+            <Outlet />
+        </>
     )
 
 }

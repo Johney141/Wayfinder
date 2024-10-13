@@ -12,19 +12,37 @@ module.exports = {
     await Articles.bulkCreate([
       {
         title: 'How to do thing',
-        body: 'This is how you do the thing',
+        body: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel felis nec lorem scelerisque accumsan. Sed ut nisl eget nunc fermentum tincidunt ut sit amet elit. Etiam auctor, urna non elementum dapibus, risus lorem maximus arcu, vitae auctor dolor urna sit amet ante. Aenean interdum sit amet nisi vel luctus. Suspendisse suscipit ultricies mauris a mollis. Pellentesque consectetur nisl ac neque dignissim, ut efficitur lacus dapibus.
+
+        Curabitur eget purus a odio efficitur vehicula non eget lacus. Mauris non ex in elit gravida vehicula nec id risus. Quisque auctor, tortor sed iaculis fermentum, odio libero volutpat nulla, at malesuada lorem ipsum in lacus. Ut nec est orci. Maecenas lobortis ligula vitae augue luctus, in consequat lectus efficitur. Aliquam erat volutpat. Nam suscipit cursus arcu, sit amet pharetra leo aliquam eget.
+
+        Fusce ac libero eget elit malesuada accumsan at sed ipsum. Duis vulputate nunc risus, non varius velit dapibus vel. Praesent vulputate metus in turpis dignissim, non consequat leo efficitur. Pellentesque convallis feugiat nulla. Donec in fermentum ex, sit amet malesuada sapien. Phasellus vehicula varius velit, ac sollicitudin magna tincidunt eget. Mauris vitae diam arcu.
+      `,
         orgId: 1,
         userId: 1
       },
       {
         title: 'How to do thing2',
-        body: 'Here is another way to do the thing',
+        body: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel felis nec lorem scelerisque accumsan. Sed ut nisl eget nunc fermentum tincidunt ut sit amet elit. Etiam auctor, urna non elementum dapibus, risus lorem maximus arcu, vitae auctor dolor urna sit amet ante. Aenean interdum sit amet nisi vel luctus. Suspendisse suscipit ultricies mauris a mollis. Pellentesque consectetur nisl ac neque dignissim, ut efficitur lacus dapibus.
+    
+        Curabitur eget purus a odio efficitur vehicula non eget lacus. Mauris non ex in elit gravida vehicula nec id risus. Quisque auctor, tortor sed iaculis fermentum, odio libero volutpat nulla, at malesuada lorem ipsum in lacus. Ut nec est orci. Maecenas lobortis ligula vitae augue luctus, in consequat lectus efficitur. Aliquam erat volutpat. Nam suscipit cursus arcu, sit amet pharetra leo aliquam eget.
+    
+        Fusce ac libero eget elit malesuada accumsan at sed ipsum. Duis vulputate nunc risus, non varius velit dapibus vel. Praesent vulputate metus in turpis dignissim, non consequat leo efficitur. Pellentesque convallis feugiat nulla. Donec in fermentum ex, sit amet malesuada sapien. Phasellus vehicula varius velit, ac sollicitudin magna tincidunt eget. Mauris vitae diam arcu.
+      `,
         orgId: 1,
         userId: 1
       },
       {
         title: 'Not doing the thing',
-        body: 'You shouldnt do this thing',
+        body: `
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel felis nec lorem scelerisque accumsan. Sed ut nisl eget nunc fermentum tincidunt ut sit amet elit. Etiam auctor, urna non elementum dapibus, risus lorem maximus arcu, vitae auctor dolor urna sit amet ante. Aenean interdum sit amet nisi vel luctus. Suspendisse suscipit ultricies mauris a mollis. Pellentesque consectetur nisl ac neque dignissim, ut efficitur lacus dapibus.
+    
+        Curabitur eget purus a odio efficitur vehicula non eget lacus. Mauris non ex in elit gravida vehicula nec id risus. Quisque auctor, tortor sed iaculis fermentum, odio libero volutpat nulla, at malesuada lorem ipsum in lacus. Ut nec est orci. Maecenas lobortis ligula vitae augue luctus, in consequat lectus efficitur. Aliquam erat volutpat. Nam suscipit cursus arcu, sit amet pharetra leo aliquam eget.
+    
+        Fusce ac libero eget elit malesuada accumsan at sed ipsum. Duis vulputate nunc risus, non varius velit dapibus vel. Praesent vulputate metus in turpis dignissim, non consequat leo efficitur. Pellentesque convallis feugiat nulla. Donec in fermentum ex, sit amet malesuada sapien. Phasellus vehicula varius velit, ac sollicitudin magna tincidunt eget. Mauris vitae diam arcu.
+      `,
         orgId: 2,
         userId: 3
       }

@@ -41,7 +41,6 @@ router.get('/:orgId/search', requireOrg, async (req, res, next) => {
             ]
         })
 
-        if(!articles.length) return next(new Error('No Articles found'))
 
         res.json({Articles: articles})
     } catch (error) {
@@ -61,7 +60,6 @@ router.get('/:orgId/recent', requireOrg, async (req, res, next) => {
             limit: 5
         });
 
-        if(!articles.length) return next(new Error('No recent Articles'));
 
         return res.json({Articles: articles})
     } catch (error) {
@@ -86,16 +84,17 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
                 },
                 {
                     model: Comments,
-                    attributes: ['comment', 'id', 'createdAt', 'updatedAt'],
+                    attributes: ['comment', 'id', 'createdAt', 'updatedAt', 'articleId'],
                     include: [
                         {
                             model: User,
-                            attributes: ['firstName', 'lastName']
+                            attributes: ['firstName', 'lastName', 'id']
                         }
                     ],
-                    required: false
+                    required: false, 
                 }
-            ]
+            ],
+            order: [[{ model: Comments }, 'updatedAt', 'DESC']]
         })
         if(!article) return next(new Error('Article not found'));
 
@@ -148,7 +147,7 @@ router.put('/:orgId/:articleId', requireOrg, requireAdmin, validateArticle, asyn
         const userId = req.user.id;
         const orgId = parseInt(req.params.orgId);
         const articleId = parseInt(req.params.articleId);
-        const article = await Articles.findByPk(articleId)
+        const article = await Articles.findByPk(articleId);
         
         if(!article) {
             const err = new Error('Article not found')

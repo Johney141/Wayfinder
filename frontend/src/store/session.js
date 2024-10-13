@@ -9,12 +9,12 @@ const setUser = (user) => {
     payload: user
   };
 };
-// Uncomment when logout feature is made
-// const removeUser = () => {
-//   return {
-//     type: REMOVE_USER
-//   };
-// };
+
+const removeUser = () => {
+  return {
+    type: REMOVE_USER
+  };
+};
 
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
@@ -52,8 +52,34 @@ export const signup = (user) => async (dispatch) => {
     const data = await response.json();
     dispatch(setUser(data.user));
     return response;
-  };
+};
 
+export const createUser = (orgId, user) => async () => {
+  const { firstName, lastName, email, password, isAdmin} = user;
+  console.log('Here we are at thunk')
+  const response = await csrfFetch(`/api/users/${orgId}`, {
+    method: "POST",
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      password,
+      isAdmin
+    })
+  });
+
+  // const data = await response.json();
+  return response;
+};
+
+export const logout = () => async (dispatch) => {
+  console.log('Attempting logout')
+  const response = await csrfFetch('/api/session', {
+    method: 'DELETE'
+  });
+  dispatch(removeUser());
+  return response;
+};
 const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {

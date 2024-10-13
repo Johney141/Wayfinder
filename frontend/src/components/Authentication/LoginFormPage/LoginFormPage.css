@@ -3,28 +3,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
 
+html {
+    height: 100%;
+}
 
-body{
-    height: 100%; 
+body {
+    min-height: 100vh;
     margin: 0;
+    display: flex;
+}
+
+html, body {
+    overflow-x: hidden;
 }
 #root {
-    height: 100%; 
-    margin: 0; 
-    
+    flex: 1;
+    margin: 0;
+    background: linear-gradient(#9BDE7E, #006837) !important;
 }
-
 
 .auth-container {
     width: 100%;
-    height: 100%; 
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
+    justify-content: center;
+    align-items: center;
     padding: 20px;
-    background-color: #f0f0f0; 
-    background: linear-gradient(#9BDE7E, #006837);
 }
 
 .auth-form {

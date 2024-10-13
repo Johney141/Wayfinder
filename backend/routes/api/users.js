@@ -53,6 +53,7 @@ router.post('/', validateSignup, async (req, res, next) => {
 
 // Sign up user apart of org
 router.post('/:orgId', requireOrg, requireAdmin, validateSignup, async (req, res, next) => {
+      console.log('Here we are at backend')
       const { email, password, firstName, lastName, isAdmin } = req.body;
       const orgId = parseInt(req.params.orgId);
       const org = await Organization.findByPk(orgId);
