@@ -121,7 +121,7 @@ function CreateUser() {
                 </select>
             </label>
 
-            <button type="submit" className='auth-button'>Sign Up</button>
+            <button type="submit" className='auth-button'>Create User</button>
             </form>
         </div>
     );

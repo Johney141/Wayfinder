@@ -31,6 +31,11 @@ function LoginFormPage() {
     );
   };
 
+  const handleDemo = async (e) => {
+    e.preventDefault();
+    return dispatch(sessionActions.login({credential:'demo@user.io', password:'password'}))
+  }
+
   return (
     <div className='auth-container'>
       <h1 className='title'>Wayfinder</h1>
@@ -65,6 +70,12 @@ function LoginFormPage() {
             Aren&apos;t signed up yet? Click here to create an Organization
           </p>
         <button type="submit" className='auth-button'>Log In</button>
+        <div className='demo-container'>
+          <button
+            onClick={e => handleDemo(e)}
+            id='demoButton'
+          >Login as Demo User</button>
+        </div>
       </form>
     </div>
   );
