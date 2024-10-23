@@ -91,6 +91,7 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
                             attributes: ['firstName', 'lastName', 'id']
                         }
                     ],
+                    
                     required: false, 
                 }
             ],

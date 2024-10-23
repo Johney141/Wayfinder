@@ -24,24 +24,27 @@ function OrgDetails() {
     
     useEffect(() => {
         const getArticleDetails = async () => {
-            await dispatch(getArticleDetailsThunk(orgId, articleId))
+            await dispatch(getArticleDetailsThunk(orgId, articleId));
             setIsLoaded(true);
-        }
+        };
 
-        if(!isLoaded) {
+
+        if (articleId) {
+            setIsLoaded(false);
             getArticleDetails();
         }
+    }, [dispatch, orgId, articleId]);
 
 
-    }, [isLoaded, dispatch, orgId, articleId]);
-
-    const handleComment = () => {
-        setIsLoaded(false);
-    }
-
-    if(!isLoaded) {
+    if (!article || !isLoaded) {
         return <Loading />
     }
+
+    const handleComment = async () => {
+        await dispatch(getArticleDetailsThunk(orgId, articleId));
+    }
+
+
 
     return (
         <div className='detail-container'>
@@ -68,29 +71,30 @@ function OrgDetails() {
             <h3>Comments</h3>
             <div className='comments-container'>
                 <CreateComment orgId={orgId} articleId={articleId} commentCreated={handleComment} />
-                {article.Comments.map(comment => (
-                <div
-                    className='comment'
-                    key={comment.id}
-                >   
-                    <div>
-                        <p>{comment.comment}</p>
-                        <p className='author'>{comment.User.firstName} {comment.User.lastName}</p>
-                    </div>
-                    {comment.User.id === user.id ? (
-                        <div className='author-actions'>
-                                <OpenModalButton 
-                                    icon={<CiEdit className='update-icon' />}
-                                    modalComponent={<UpdateComment orgId={orgId} comment={comment} commentUpdated={handleComment}/>}
-                                />
-                                <OpenModalButton 
-                                    icon={<CiTrash className='delete-icon' />}
-                                    modalComponent={<DeleteComment orgId={orgId} commentId={comment.id} commentDeleted={handleComment}/>}
-                                />
+                {article?.Comments?.length ? (
+                    article.Comments.map(comment => (
+                        <div className='comment' key={comment.id}>
+                            <div>
+                                <p>{comment.comment}</p>
+                                <p className='author'>{comment.User.firstName} {comment.User.lastName}</p>
+                            </div>
+                            {comment.User.id === user.id ? (
+                                <div className='author-actions'>
+                                    <OpenModalButton 
+                                        icon={<CiEdit className='update-icon' />}
+                                        modalComponent={<UpdateComment orgId={orgId} comment={comment} commentUpdated={handleComment}/>}
+                                    />
+                                    <OpenModalButton 
+                                        icon={<CiTrash className='delete-icon' />}
+                                        modalComponent={<DeleteComment orgId={orgId} commentId={comment.id} commentDeleted={handleComment}/>}
+                                    />
+                                </div>
+                            ) : null}
                         </div>
-                    ): null}
-                </div>
-                ))}
+                    ))
+                ) : (
+                    <p>No comments yet</p>
+                )}
             </div>
         </div>
     )
