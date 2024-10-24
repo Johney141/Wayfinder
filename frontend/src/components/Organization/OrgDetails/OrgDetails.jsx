@@ -10,6 +10,7 @@ import DeleteArticle from '../DeleteArticle/DeleteArticle';
 import CreateComment from '../Comments/CreateComment/CreateComment';
 import UpdateComment from '../Comments/UpdateComment/UpdateComment';
 import DeleteComment from '../Comments/DeleteComment/DeleteComment';
+import ManageBookmarks from '../Bookmarks/ManageBookmarks/ManageBookmarks';
 
 function OrgDetails() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -17,6 +18,9 @@ function OrgDetails() {
     const user = useSelector(state => state.sessionState.user);
     const orgId = user.Organization.id
     const article = useSelector(state => state.articleState.byId[articleId]);
+
+    
+
     const paragraphs = article?.body.split('\n');
 
     const navigate = useNavigate();
@@ -49,7 +53,11 @@ function OrgDetails() {
     return (
         <div className='detail-container'>
             <div className='article-header'>
-                <h1>{article.title}</h1>
+                <span className='detail-title'>
+                    <h1>{article.title}</h1>
+                    <ManageBookmarks articleId={article.id} />
+                </span>
+
                 {user.isAdmin ? (
                     <div className='admin-actions'>
                         <CiEdit id='edit-article' onClick={() => navigate('edit')}/>

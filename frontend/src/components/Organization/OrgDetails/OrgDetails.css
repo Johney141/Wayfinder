@@ -60,3 +60,9 @@
 .delete-icon, .update-icon {
     cursor: pointer;
 }
+
+.detail-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

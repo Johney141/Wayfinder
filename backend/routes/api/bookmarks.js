@@ -31,12 +31,12 @@ router.post('/:orgId/:articleId', requireOrg, async (req, res, next) => {
         const userId = req.user.id;
         const articleId = parseInt(req.params.articleId);
 
-        const newBookmark = await Articles.create({
+        const newBookmark = await Bookmarks.create({
             userId,
             articleId
         })
 
-        const fullBookmark = await Articles.findByPk(newBookmark.id, {
+        const fullBookmark = await Bookmarks.findByPk(newBookmark.id, {
             include: [
                 {
                     model: Articles,
