@@ -99,19 +99,31 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
         })
         if(!article) return next(new Error('Article not found'));
 
-        const reactions =  await Reactions.findAll({
+        const reactions = await Reactions.findAll({
             where: { articleId },
             attributes: [
-                'type',
+                'id',             
+                'userId',         
+                'type',           
                 [sequelize.fn('COUNT', sequelize.col('type')), 'count']
             ],
-            group: ['type']
-        })
-
+            group: ['type', 'userId', 'id'] 
+        });
+        
+        
         const reactionCounts = reactions.reduce((acc, reaction) => {
-            acc[reaction.type] = reaction.getDataValue('count');
+            const type = reaction.type;
+            if (!acc[type]) acc[type] = { count: 0, reactions: [] };
+
+            
+            acc[type].count += reaction.getDataValue('count');
+            acc[type].reactions.push({
+                id: reaction.id,
+                userId: reaction.userId,
+            });
+        
             return acc;
-        }, { like: 0, dislike: 0 });
+        }, { like: { count: 0, reactions: [] }, dislike: { count: 0, reactions: [] } });
         const articleData = article.toJSON();
         articleData.Reactions = reactionCounts;
 
