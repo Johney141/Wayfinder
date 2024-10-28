@@ -16,14 +16,14 @@ module.exports = {
       type: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      articleId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'Articles'
         },
         onDelete: 'cascade'
-      },
-      articleId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
       },
       userId: {
         type: Sequelize.INTEGER,
