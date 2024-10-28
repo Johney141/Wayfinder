@@ -1,9 +1,9 @@
 const express = require('express');
-const { Articles, Comments, Organization, User, Sequelize } = require('../../db/models');
+const { Articles, Comments, Organization, User, Reactions, Sequelize, sequelize } = require('../../db/models');
 const { requireOrg, requireAdmin } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 
 
@@ -99,7 +99,23 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
         })
         if(!article) return next(new Error('Article not found'));
 
-        return res.json(article)
+        const reactions =  await Reactions.findAll({
+            where: { articleId },
+            attributes: [
+                'type',
+                [sequelize.fn('COUNT', sequelize.col('type')), 'count']
+            ],
+            group: ['type']
+        })
+
+        const reactionCounts = reactions.reduce((acc, reaction) => {
+            acc[reaction.type] = reaction.getDataValue('count');
+            return acc;
+        }, { like: 0, dislike: 0 });
+        const articleData = article.toJSON();
+        articleData.Reactions = reactionCounts;
+
+        return res.json(articleData);
 
 
     } catch (error) {

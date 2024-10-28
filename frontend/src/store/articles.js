@@ -113,6 +113,7 @@ export const getArticleDetailsThunk = (orgId, articleId) => async (dispatch) => 
         const res = await csrfFetch(`/api/articles/${orgId}/${articleId}`);
         if(res.ok) {
             const article = await res.json();
+            console.log(article)
             dispatch(getArticleDetails(article))
         } else {
             throw res
