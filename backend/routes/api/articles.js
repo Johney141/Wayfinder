@@ -71,6 +71,7 @@ router.get('/:orgId/recent', requireOrg, async (req, res, next) => {
 router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
     try {
         const articleId = parseInt(req.params.articleId);
+        const userId = req.user.id;
         const article = await Articles.findOne({
             where: {id: articleId},
             include: [
@@ -109,6 +110,11 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
             ],
             group: ['type', 'userId', 'id'] 
         });
+
+        const userReaction = await Reactions.findOne({
+            where: { articleId, userId },
+            attributes: ['type', 'id']
+        });
         
         
         const reactionCounts = reactions.reduce((acc, reaction) => {
@@ -126,6 +132,7 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
         }, { like: { count: 0, reactions: [] }, dislike: { count: 0, reactions: [] } });
         const articleData = article.toJSON();
         articleData.Reactions = reactionCounts;
+        articleData.Reactions.UserReaction = userReaction ? userReaction : null;
 
         return res.json(articleData);
 

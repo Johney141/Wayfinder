@@ -11,6 +11,7 @@ import CreateComment from '../Comments/CreateComment/CreateComment';
 import UpdateComment from '../Comments/UpdateComment/UpdateComment';
 import DeleteComment from '../Comments/DeleteComment/DeleteComment';
 import ManageBookmarks from '../Bookmarks/ManageBookmarks/ManageBookmarks';
+import Reactions from '../Reactions/Reactions';
 
 function OrgDetails() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -76,6 +77,7 @@ function OrgDetails() {
                 <p key={idx}>{para}</p>
             ))}
             </div>
+            {article.Reactions && <Reactions reactions={article.Reactions} />}
             <h3>Comments</h3>
             <div className='comments-container'>
                 <CreateComment orgId={orgId} articleId={articleId} commentCreated={handleComment} />

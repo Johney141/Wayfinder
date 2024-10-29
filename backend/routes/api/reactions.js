@@ -24,6 +24,22 @@ router.post('/:orgId/:articleId', requireOrg, async (req, res, next) => {
     }
 })
 
+router.patch('/:orgId/:reactionId', requireOrg, async (req, res, next) => {
+    try {
+        const {reactionId} = parseInt(reactionId);
+        const {type} = req.body;
+
+        const reaction = await Reactions.findByPk(reactionId);
+
+        reaction.type = type;
+        await reaction.save();
+
+        res.json(reaction);
+    } catch (error) {
+        next(error);
+    }
+})
+
 router.delete('/:orgId/:reactionId', requireOrg, async (req, res, next) => {
     try {
         const reactionId = parseInt(req.params.reactionId);
@@ -42,3 +58,5 @@ router.delete('/:orgId/:reactionId', requireOrg, async (req, res, next) => {
         next(error);
     }
 })
+
+module.exports = router;
