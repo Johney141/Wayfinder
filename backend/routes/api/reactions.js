@@ -26,7 +26,7 @@ router.post('/:orgId/:articleId', requireOrg, async (req, res, next) => {
 
 router.patch('/:orgId/:reactionId', requireOrg, async (req, res, next) => {
     try {
-        const {reactionId} = parseInt(reactionId);
+        const reactionId = parseInt(req.params.reactionId);
         const {type} = req.body;
 
         const reaction = await Reactions.findByPk(reactionId);

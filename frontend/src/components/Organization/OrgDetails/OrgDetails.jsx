@@ -77,7 +77,7 @@ function OrgDetails() {
                 <p key={idx}>{para}</p>
             ))}
             </div>
-            {article.Reactions && <Reactions reactions={article.Reactions} />}
+            {article.Reactions && <Reactions reactions={article.Reactions} articleId={articleId}/>}
             <h3>Comments</h3>
             <div className='comments-container'>
                 <CreateComment orgId={orgId} articleId={articleId} commentCreated={handleComment} />

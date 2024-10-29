@@ -322,7 +322,7 @@ export const updateReactionThunk = (orgId, reactionId, type) => async (dispatch)
     }
 };
 
-export const deleteReactionThunk = (orgId, reactionId, type) => async (dispatch) => {
+export const deleteReactionThunk = (orgId, reactionId) => async (dispatch) => {
     try {
         const options = {
             method: 'DELETE',
