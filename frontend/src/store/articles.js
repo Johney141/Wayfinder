@@ -8,6 +8,9 @@ const DELETE_ARTICLE = 'articles/deleteArticle';
 const CREATE_COMMENT = 'comments/createComment';
 const UPDATE_COMMENT = 'comments/updateComment';
 const DELETE_COMMENT = 'comments/deleteComment';
+const CREATE_REACTION = 'reactions/createReaction';
+const UPDATE_REACTION = 'reactions/updateReaction';
+const DELETE_REACTION = 'reactions/deleteReaction'
 
 // Action Creators
 const getSearchArticles = (articles) => {
@@ -73,6 +76,25 @@ const deleteComment = (comment) => {
     }
 }
 
+const createReaction = (reaction) => {
+    return {
+        type: CREATE_REACTION,
+        payload: reaction
+    }
+}
+const updateReaction = (reaction) => {
+    return {
+        type: UPDATE_REACTION,
+        payload: reaction
+    }
+}
+const deleteReaction = (reaction) => {
+    return {
+        type: DELETE_REACTION,
+        payload: reaction
+    }
+}
+
 
 
 // Thunks
@@ -113,6 +135,7 @@ export const getArticleDetailsThunk = (orgId, articleId) => async (dispatch) => 
         const res = await csrfFetch(`/api/articles/${orgId}/${articleId}`);
         if(res.ok) {
             const article = await res.json();
+            console.log(article)
             dispatch(getArticleDetails(article))
         } else {
             throw res
@@ -256,6 +279,68 @@ export const deleteCommentThunk = (orgId, commentId) => async (dispatch) => {
         return err;
     }
 }
+
+export const createReactionThunk = (orgId, articleId, type) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(type)
+        };
+        const res = await csrfFetch(`/api/reactions/${orgId}/${articleId}`, options);
+        if(res.ok) {
+            const reaction = await res.json();
+            dispatch(createReaction(reaction))
+            return reaction
+        } else {
+            throw res;
+        }
+
+    } catch (error) {
+        const err = await error.json();
+        return err;
+    }
+}
+export const updateReactionThunk = (orgId, reactionId, type) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(type)
+        };
+        const res = await csrfFetch(`/api/reactions/${orgId}/${reactionId}`, options);
+        if(res.ok) {
+            const reaction = await res.json();
+            dispatch(updateReaction(reaction));
+            return reaction;
+        } else {
+            throw res;
+        }
+    } catch (error) {
+        const err = await error.json();
+        return err;
+    }
+};
+
+export const deleteReactionThunk = (orgId, reactionId) => async (dispatch) => {
+    try {
+        const options = {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        };
+        const res = await csrfFetch(`/api/reactions/${orgId}/${reactionId}`, options);
+        if(res.ok) {
+            const reaction = await res.json();
+            dispatch(deleteReaction(reaction.reaction));
+            return reaction;
+        } else {
+            throw res;
+        }
+    } catch (error) {
+        const err = await error.json();
+        return err;
+    }
+}
 // Reducer
 
 const initialState = {
@@ -379,6 +464,51 @@ const articleReducer = (state=initialState, action) => {
                         comment.id !== action.payload.comment.id)
                 }
             };
+            return newState;
+        case UPDATE_REACTION:
+        case CREATE_REACTION: 
+            newState = {...state};
+            newState.allArticles = newState.allArticles.map(article => {
+                if(article.id === action.payload.articleId) {
+                    return {
+                        ...article,
+                        Reactions: {...article.Reactions, UserReaction: action.payload}
+                    }
+                } else {
+                    return article
+                }
+            });
+
+            newState.byId = {
+                ...newState.byId,
+                [action.payload.articleId]: {
+                    ...newState.byId[action.payload.articleId],
+                    Reactions: {...newState.byId[action.payload.articleId].Reactions, UserReaction: action.payload}
+                }
+            };
+
+            return newState;
+        case DELETE_REACTION:
+            newState = {...state};
+            newState.allArticles = newState.allArticles.map(article => {
+                if(article.id === action.payload.articleId) {
+                    return {
+                        ...article,
+                        Reactions: {...article.Reactions, UserReaction: null}
+                    }
+                } else {
+                    return article
+                }
+            });
+
+            newState.byId = {
+                ...newState.byId,
+                [action.payload.articleId]: {
+                    ...newState.byId[action.payload.articleId],
+                    Reactions: {...newState.byId[action.payload.articleId].Reactions, UserReaction: null}
+                }
+            };
+
             return newState;
         default:
             return state

@@ -23,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
         models.Comments, 
         {foreignKey: 'userId', onDelete: 'CASCADE'}
       )
+      User.hasMany(
+        models.Bookmarks,
+        {foreignKey: 'userId', onDelete: 'CASCADE'}
+      )
+      User.hasMany(
+        models.Reactions,
+        {foreignKey: 'userId', onDelete: 'CASCADE'}
+      )
     }
   }
   User.init({

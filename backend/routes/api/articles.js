@@ -1,9 +1,9 @@
 const express = require('express');
-const { Articles, Comments, Organization, User, Sequelize } = require('../../db/models');
+const { Articles, Comments, Organization, User, Reactions, Sequelize, sequelize } = require('../../db/models');
 const { requireOrg, requireAdmin } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
 
 
 
@@ -71,6 +71,7 @@ router.get('/:orgId/recent', requireOrg, async (req, res, next) => {
 router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
     try {
         const articleId = parseInt(req.params.articleId);
+        const userId = req.user.id;
         const article = await Articles.findOne({
             where: {id: articleId},
             include: [
@@ -91,6 +92,7 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
                             attributes: ['firstName', 'lastName', 'id']
                         }
                     ],
+                    
                     required: false, 
                 }
             ],
@@ -98,7 +100,41 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
         })
         if(!article) return next(new Error('Article not found'));
 
-        return res.json(article)
+        const reactions = await Reactions.findAll({
+            where: { articleId },
+            attributes: [
+                'id',             
+                'userId',         
+                'type',           
+                [sequelize.fn('COUNT', sequelize.col('type')), 'count']
+            ],
+            group: ['type', 'userId', 'id'] 
+        });
+
+        const userReaction = await Reactions.findOne({
+            where: { articleId, userId },
+            attributes: ['type', 'id']
+        });
+        
+        
+        const reactionCounts = reactions.reduce((acc, reaction) => {
+            const type = reaction.type;
+            if (!acc[type]) acc[type] = { count: 0, reactions: [] };
+
+            
+            acc[type].count += reaction.getDataValue('count');
+            acc[type].reactions.push({
+                id: reaction.id,
+                userId: reaction.userId,
+            });
+        
+            return acc;
+        }, { like: { count: 0, reactions: [] }, dislike: { count: 0, reactions: [] } });
+        const articleData = article.toJSON();
+        articleData.Reactions = reactionCounts;
+        articleData.Reactions.UserReaction = userReaction ? userReaction : null;
+
+        return res.json(articleData);
 
 
     } catch (error) {

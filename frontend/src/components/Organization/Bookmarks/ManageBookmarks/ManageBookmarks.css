@@ -1,0 +1,11 @@
+.bookmark-icon {
+    padding-left: .5rem;
+    padding-top: .5rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+
+}
+
+#bookmark-icon {
+    fill: yellow;
+}

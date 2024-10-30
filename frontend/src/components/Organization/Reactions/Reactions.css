@@ -1,0 +1,10 @@
+.reactions-container {
+    width: 75%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.reaction {
+    padding: .25rem;
+    cursor: pointer;
+}

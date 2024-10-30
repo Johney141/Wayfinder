@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet, useParams } from "react-router-dom";
 import './OrgLayout.css';
 import Navigation from "../Navigation/Navigation";
+import Bookmark from "../Bookmarks/Bookmarks";
 
 
 function OrgLayout() {
@@ -25,7 +26,10 @@ function OrgLayout() {
     return (
         <>
             <Navigation />
-            <Outlet />
+            <div className="org-page-layout">
+                <Bookmark />
+                <Outlet />
+            </div>
         </>
     )
 

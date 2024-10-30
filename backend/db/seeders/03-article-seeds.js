@@ -11,7 +11,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await Articles.bulkCreate([
       {
-        title: 'How to Create a article',
+        title: 'How to Create an article',
         body: `
           1. Click on the profile menu in the nav-bar
           2. Select the "Create a new Article" button"

@@ -1,0 +1,18 @@
+.sidebar-container {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(247, 247, 247); 
+    width: 25%; 
+    overflow-y: auto;
+    flex-shrink: 0; 
+    padding-left: 1rem;
+}
+
+.bookmark-container {
+    background-color: white;
+    border-radius: 1rem;
+    width: 80%;
+    color: black;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+}
