@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
       Bookmarks.belongsTo(
         models.User,
-        {foreignKey: 'userid'}
+        {foreignKey: 'userId'}
       )
     }
   }
