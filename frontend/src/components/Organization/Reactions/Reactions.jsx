@@ -9,6 +9,8 @@ import { createReactionThunk, deleteReactionThunk, updateReactionThunk } from ".
 
 function Reactions({reactions, articleId}) {
     const [userReaction, setUserReaction] = useState(reactions.UserReaction?.type || null);
+    const [likeCount, setLikeCount] = useState(reactions.like.count);
+    const [dislikeCount, setDislikeCount] = useState(reactions.dislike.count);
     const orgId = useSelector(state => state.sessionState.user.Organization.id);
     const reactionId = reactions.UserReaction?.id;
     
@@ -19,12 +21,12 @@ function Reactions({reactions, articleId}) {
 
         if(userReaction === 'dislike') {
             dispatch(updateReactionThunk(orgId, reactionId, body))
-            reactions.like.count += 1;
-            reactions.dislike.count -= 1;
+            setLikeCount(prev => prev + 1);
+            setDislikeCount(prev => prev - 1);
             setUserReaction('like')
         } else if (userReaction === null) {
             dispatch(createReactionThunk(orgId, articleId, body))
-            reactions.like.count += 1;
+            setLikeCount(prev => prev + 1);
             setUserReaction('like')
         }
     }
@@ -33,12 +35,12 @@ function Reactions({reactions, articleId}) {
 
         if(userReaction === 'like') {
             dispatch(updateReactionThunk(orgId, reactionId, body))
-            reactions.like.count -= 1;
-            reactions.dislike.count += 1;
+            setLikeCount(prev => prev - 1);
+            setDislikeCount(prev => prev + 1);
             setUserReaction('dislike')
         } else if (userReaction === null) {
             dispatch(createReactionThunk(orgId, articleId, body))
-            reactions.dislike.count += 1;
+            setDislikeCount(prev => prev + 1);
             setUserReaction('dislike')
         }
     }
@@ -46,9 +48,9 @@ function Reactions({reactions, articleId}) {
     const handleReactionDelete = () => {
         dispatch(deleteReactionThunk(orgId, reactionId))
         if(userReaction === 'like') {
-            reactions.like.count -= 1
+            setLikeCount(prev => prev - 1);
         } else if(userReaction === 'dislike') {
-            reactions.dislike.count -= 1;
+            setDislikeCount(prev => prev - 1);
         }
         
         setUserReaction(null)
@@ -60,12 +62,12 @@ function Reactions({reactions, articleId}) {
             <div className="reaction"
                 onClick={userReaction === 'like' ? handleReactionDelete : handleLikeClick}
             >
-                {userReaction === 'like' ? <AiFillLike /> : <AiOutlineLike />} {reactions.like.count}
+                {userReaction === 'like' ? <AiFillLike /> : <AiOutlineLike />} {likeCount}
             </div>
             <div className="reaction"
                 onClick={userReaction === 'dislike' ? handleReactionDelete : handleDislikeClick}
             >
-                {userReaction === 'dislike' ? <AiFillDislike /> : <AiOutlineDislike />} {reactions.dislike.count}
+                {userReaction === 'dislike' ? <AiFillDislike /> : <AiOutlineDislike />} {dislikeCount}
             </div>
         </div>
     )
