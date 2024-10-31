@@ -13,6 +13,7 @@ function Reactions({reactions, articleId}) {
     const [dislikeCount, setDislikeCount] = useState(reactions.dislike.count);
     const orgId = useSelector(state => state.sessionState.user.Organization.id);
     const reactionId = reactions.UserReaction?.id;
+    console.log("Reactions Object", reactions)
     
     const dispatch = useDispatch();
     
