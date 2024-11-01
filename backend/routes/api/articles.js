@@ -130,6 +130,7 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
         
             return acc;
         }, { like: { count: 0, reactions: [] }, dislike: { count: 0, reactions: [] } });
+        console.log(reactionCounts);
         const articleData = article.toJSON();
         articleData.Reactions = reactionCounts;
         articleData.Reactions.UserReaction = userReaction ? userReaction : null;
