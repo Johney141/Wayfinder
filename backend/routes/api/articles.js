@@ -103,13 +103,14 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
         const reactions = await Reactions.findAll({
             where: { articleId },
             attributes: [
-                'id',             
-                'userId',         
                 'type',           
                 [sequelize.fn('COUNT', sequelize.col('type')), 'count']
             ],
-            group: ['type', 'userId', 'id'] 
+            group: ['type'] 
         });
+        const readableReactions = reactions.map(reaction => reaction.get({ plain: true }));
+
+        console.log('Reactions(backend): ', readableReactions);
 
         const userReaction = await Reactions.findOne({
             where: { articleId, userId },
@@ -119,18 +120,15 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
         
         const reactionCounts = reactions.reduce((acc, reaction) => {
             const type = reaction.type;
-            if (!acc[type]) acc[type] = { count: 0, reactions: [] };
+            if (!acc[type]) acc[type] = { count: 0 };
 
             
             acc[type].count += reaction.getDataValue('count');
-            acc[type].reactions.push({
-                id: reaction.id,
-                userId: reaction.userId,
-            });
+
         
             return acc;
-        }, { like: { count: 0, reactions: [] }, dislike: { count: 0, reactions: [] } });
-        console.log(reactionCounts);
+        }, { like: { count: 0 }, dislike: { count: 0 } });
+        console.log('Reaction Counts(backend): ', reactionCounts);
         const articleData = article.toJSON();
         articleData.Reactions = reactionCounts;
         articleData.Reactions.UserReaction = userReaction ? userReaction : null;
