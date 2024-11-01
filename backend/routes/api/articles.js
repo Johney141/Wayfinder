@@ -120,7 +120,10 @@ router.get('/:orgId/:articleId', requireOrg, async (req, res, next) => {
         
         const reactionCounts = reactions.reduce((acc, reaction) => {
             const type = reaction.type;
-            acc[type].count += reaction.getDataValue('count');
+
+            const count = parseInt(reaction.getDataValue('count'), 10) || 0;
+            acc[type].count += count;
+        
             return acc;
         }, { like: { count: 0 }, dislike: { count: 0 } });
         console.log('Reaction Counts(backend): ', reactionCounts);
