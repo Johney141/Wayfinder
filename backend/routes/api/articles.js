@@ -4,6 +4,7 @@ const { requireOrg, requireAdmin } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op, where } = require('sequelize');
+const sanitizeHtml = require('sanitize-html');
 
 
 

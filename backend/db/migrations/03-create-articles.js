@@ -24,6 +24,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
+      plainText: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      }, 
       orgId: {
         type: Sequelize.INTEGER,
         allowNull: false,

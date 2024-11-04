@@ -3,6 +3,9 @@ import './ArticleForm.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createArticleThunk } from '../../../store/articles';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import '../../../styles/quillStyles.css'
 
 function ArticleForm() {
     const [title, setTitle] = useState('');
@@ -10,7 +13,11 @@ function ArticleForm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
-    const orgId = useSelector(state => state.sessionState.user.Organization.id)
+    const orgId = useSelector(state => state.sessionState.user.Organization.id);
+
+    const handleChange = (content) => {
+        setBody(content)
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,7 +42,6 @@ function ArticleForm() {
         }
     };
 
-
     return (
         <div className='page-container'>
             <h1>Create a new Article</h1>
@@ -51,23 +57,28 @@ function ArticleForm() {
                     />
                 </label>
                 {errors.title && <p className='error'>{errors.title}</p>}
-                <label className='form-input'>
-                    Body
-                    <textarea
-                        id='article-body'
-                        value={body}
-                        onChange={(e) => setBody(e.target.value)}
-                        placeholder='Please enter at least 50 characters.'
-                    />
-                </label>
+
+                <ReactQuill
+                    theme="snow"
+                    value={body} 
+                    onChange={handleChange}  // Make sure this directly calls setBody
+                    placeholder="Write your article here..."
+                    modules={{
+                        toolbar: [
+                            [{ header: [1, 2, false] }],
+                            ['bold', 'italic', 'underline'],
+                            [{ list: 'ordered' }, { list: 'bullet' }],
+                            ['link']
+                        ]
+                    }}
+            />
                 {errors.body && <p className='error'>{errors.body}</p>}
 
                 <button type='submit' className='article-button'>Create Article</button>
             </form>
         </div>
-    )
+    );
 }
-
 
 
 export default ArticleForm;

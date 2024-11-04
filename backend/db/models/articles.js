@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    plainText: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     orgId: {
       type: DataTypes.INTEGER,
       allowNull: false,

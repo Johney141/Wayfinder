@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate":"npx dotenv sequelize db:migrate",
-    "seed":"npx dotenv sequelize db:seed:all",
+    "migrate": "npx dotenv sequelize db:migrate",
+    "seed": "npx dotenv sequelize db:seed:all",
     "seed-undo": "npx dotenv sequelize db:seed:undo:all",
     "sequelize": "sequelize",
     "sequelize-cli": "sequelize-cli",
@@ -32,6 +32,7 @@
     "morgan": "^1.10.0",
     "per-env": "^1.0.2",
     "pg": "^8.13.0",
+    "sanitize-html": "^2.13.1",
     "sequelize": "^6.37.3",
     "sequelize-cli": "^6.6.2"
   },
