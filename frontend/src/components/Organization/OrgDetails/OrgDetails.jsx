@@ -72,10 +72,13 @@ function OrgDetails() {
                 :
                  null}
             </div>
-            <div className='article-container'>
-            {paragraphs.map((para, idx) => (
+            <div className='article-container'
+                dangerouslySetInnerHTML={{ __html: article.body }}
+            >
+            {/* {paragraphs.map((para, idx) => (
                 <p key={idx}>{para}</p>
-            ))}
+            ))} */}
+            
             </div>
             {article.Reactions && <Reactions reactions={article.Reactions} articleId={articleId}/>}
             <h3>Comments</h3>

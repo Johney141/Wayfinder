@@ -159,12 +159,14 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
         const { title, body } = req.body;
         const userId = req.user.id;
         const orgId = parseInt(req.params.orgId);
+        const plainText = sanitizeHtml(body, {allowedTags: []});
 
         
     
         const newArticle = await Articles.create({
             title,
             body,
+            plainText,
             userId,
             orgId
         })
@@ -182,6 +184,7 @@ router.put('/:orgId/:articleId', requireOrg, requireAdmin, validateArticle, asyn
         const orgId = parseInt(req.params.orgId);
         const articleId = parseInt(req.params.articleId);
         const article = await Articles.findByPk(articleId);
+        const plainText = sanitizeHtml(body, {allowedTags: []});
         
         if(!article) {
             const err = new Error('Article not found')
@@ -192,6 +195,7 @@ router.put('/:orgId/:articleId', requireOrg, requireAdmin, validateArticle, asyn
         await article.update({
             title,
             body,
+            plainText,
             userId,
             orgId
         })

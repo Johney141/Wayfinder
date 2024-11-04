@@ -9,9 +9,8 @@
 }
 
 .article-container {
-    flex: 1; 
-    overflow-y: auto; 
-    margin-bottom: 20px; 
+
+    height: auto;
 }
 
 .comments-container {
