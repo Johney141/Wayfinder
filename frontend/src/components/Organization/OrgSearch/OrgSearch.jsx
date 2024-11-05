@@ -52,7 +52,7 @@ function OrgSearch() {
                         key={article.id}
                         onClick={() => navigate(`/${orgId}/articles/${article.id}`)}>
                         <h3>{article.title}</h3>
-                        <p>{article.body.slice(0, 187)}...</p>
+                        <p>{article.plainText.slice(0, 187)}...</p>
                     </div>
                 ))}
            </div>

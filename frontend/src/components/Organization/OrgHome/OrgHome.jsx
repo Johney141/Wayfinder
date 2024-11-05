@@ -39,8 +39,8 @@ function OrgHome () {
                     key={article.id}
                     onClick={() => navigate(`/${orgId}/articles/${article.id}`)}>
                         <h3>{article.title}</h3>
-                        {article.body.length >= 187 ? (<p>{article.body.slice(0, 187)}...</p>) :
-                            (<p>{article.body}</p>)
+                        {article.plainText.length >= 187 ? (<p>{article.plainText.slice(0, 187)}...</p>) :
+                            (<p>{article.plainText}</p>)
                         }
                     </div>
                 ))) 

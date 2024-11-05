@@ -61,7 +61,7 @@ function ArticleForm() {
                 <ReactQuill
                     theme="snow"
                     value={body} 
-                    onChange={handleChange}  // Make sure this directly calls setBody
+                    onChange={handleChange} 
                     placeholder="Write your article here..."
                     modules={{
                         toolbar: [
@@ -71,7 +71,7 @@ function ArticleForm() {
                             ['link']
                         ]
                     }}
-            />
+                />
                 {errors.body && <p className='error'>{errors.body}</p>}
 
                 <button type='submit' className='article-button'>Create Article</button>
