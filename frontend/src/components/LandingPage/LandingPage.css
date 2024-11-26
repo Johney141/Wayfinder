@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+.navbar-buttons .get-started {
+    background: linear-gradient(90deg, #48c78e, #34a853);
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+  
+.navbar-buttons .get-started:hover {
+    background: linear-gradient(90deg, #34a853, #2e7d32);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+  
+.navbar-buttons .login {
+    background: transparent;
+    color: #bdba24;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: 2px solid #bdba24;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease, color 0.5s ease, border-color 0.5s ease;
+    margin: 0 10px;
+
+}
+
+.navbar-buttons .login:hover {
+    background: #aec23d;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.title-section {
+    font-family: 'Playfair', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: #f0f0f0;
+    text-align: center;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    width: 100%;
+}
