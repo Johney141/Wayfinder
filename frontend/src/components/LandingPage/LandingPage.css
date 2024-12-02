@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
-.navbar-buttons .get-started {
+.get-started {
     background: linear-gradient(90deg, #48c78e, #34a853);
     color: #ffffff;
     font-family: 'Montserrat', sans-serif;
@@ -17,12 +17,12 @@
     transition: all 0.3s ease;
 }
   
-.navbar-buttons .get-started:hover {
+ .get-started:hover {
     background: linear-gradient(90deg, #34a853, #2e7d32);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
   
-.navbar-buttons .login {
+.login {
     background: transparent;
     color: #bdba24;
     font-family: 'Montserrat', sans-serif;
@@ -37,7 +37,7 @@
 
 }
 
-.navbar-buttons .login:hover {
+.login:hover {
     background: #aec23d;
     color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -52,4 +52,21 @@
     letter-spacing: 0.5px;
     margin-bottom: 20px;
     width: 100%;
+}
+.landing-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.landing-text {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    padding-top: 2rem;
+}
+
+.body-button {
+    width: 10rem;
+    margin-bottom: 1rem;
 }

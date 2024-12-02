@@ -123,6 +123,12 @@ function SignupFormPage() {
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
 
+        <p 
+          onClick={() => navigate('/login')}
+          id='signup-link'>
+            Already signed up? Click here to login
+        </p>
+
         <button type="submit" className='auth-button'>Sign Up</button>
       </form>
     </div>
