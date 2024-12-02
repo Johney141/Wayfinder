@@ -1,6 +1,5 @@
 # Wayfinder
-Wayfinder is a modern knowledge base web application designed to help businesses streamline access to policies, procedures, and organizational knowledge. Built with React.js for dynamic user interfaces, Quill for rich text editing, Sequelize for efficient database management, Redux for state management, and Express for a robust backend, Wayfinder empowers teams to centralize and explore their information seamlessly.
-
+Wayfinder is a user-friendly knowledge base app that makes it easier for businesses to organize and access their policies, procedures, and important information. Designed with simplicity and collaboration in mind, it helps teams stay connected and keep everything in one place.
 ## Screenshots
 Organization Home Page 
 ![homepage](https://github.com/user-attachments/assets/6a5d64b7-9fc9-4f71-b1ab-367d460ec755)
