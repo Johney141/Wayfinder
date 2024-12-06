@@ -33,6 +33,15 @@ module.exports = (sequelize, DataTypes) => {
         models.Reactions,
         {foreignKey: 'articleId', onDelete: 'CASCADE'}
       )
+      Articles.belongsToMany(
+        models.Tags, 
+        {
+          through: 'ArticleTags', 
+          foreignKey: 'articleId',
+          otherKey: 'tagId',
+          onDelete: 'CASCADE'
+        }
+      )
     }
   }
   Articles.init({
