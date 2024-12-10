@@ -72,4 +72,4 @@ const uploadAllOrgData = async () => {
 // Call the function when needed
 uploadAllOrgData();
 
-module.exports = { uploadOrgDataToAlgolia };
+module.exports = { uploadOrgDataToAlgolia, client };

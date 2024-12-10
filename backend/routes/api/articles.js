@@ -5,6 +5,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Op, where } = require('sequelize');
 const sanitizeHtml = require('sanitize-html');
+const { uploadOrgDataToAlgolia } = require('../../utils/Algolia/algolia')
 
 
 
@@ -160,8 +161,6 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
         const userId = req.user.id;
         const orgId = parseInt(req.params.orgId);
         const plainText = sanitizeHtml(body, {allowedTags: []});
-
-        
     
         const newArticle = await Articles.create({
             title,
@@ -170,6 +169,9 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
             userId,
             orgId
         })
+
+
+        await uploadOrgDataToAlgolia(orgId)
 
         return res.status(201).json(newArticle)
     } catch (error) {
