@@ -6,49 +6,61 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { Op, where } = require('sequelize');
 const sanitizeHtml = require('sanitize-html');
 const { uploadOrgDataToAlgolia } = require('../../utils/Algolia/algolia')
+const { searchClient } = require('@algolia/client-search');
 
 
 
 const router = express.Router();
+const client = searchClient(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_WRITE_API_KEY);
 // Search Route
 router.get('/:orgId/search', requireOrg, async (req, res, next) => {
     try {
         const orgId = parseInt(req.params.orgId);
         const query = req.query.q;
 
-        if(!query) {
-            const noQuery = new Error('Search query is required')
-            noQuery.status = 400
-            return next(noQuery)
+        if (!query) {
+            const noQuery = new Error('Search query is required');
+            noQuery.status = 400;
+            return next(noQuery);
         }
 
+        const indexName = `org_${orgId}_articles`;
 
-        const articles = await Articles.findAll({
-            where: {
-                orgId,
-                [Op.or]: [
-                    { title: {[Op.like]: Sequelize.fn('LOWER', `%${query}%`)}}, 
-                    { body: {[Op.like]: Sequelize.fn('LOWER', `%${query}%`)}}
-                ]
-            },
-            include: [
-                {
-                    model: Organization,
-                    attributes: ['name']
-                },
-                {
-                    model: User,
-                    attributes: ['firstName', 'lastName']
-                }
-            ]
-        })
+        // Perform search using Algolia client
+        const response = await client.search([
+            {
+                indexName: indexName,
+                query: query,
+                attributesToRetrieve: ['objectID', 'title', 'body', 'plainText', 'orgId', 'userId'],
+                highlightPreTag: '<em>',
+                highlightPostTag: '</em>'
+            }
+        ]);
 
+        // Log the response to check its structure
+        console.log('Algolia search response:', response.results[0]?.hits);
 
-        res.json({Articles: articles})
+        // Access hits from the results array
+        const hits = response.results[0]?.hits || [];
+
+        if (hits.length === 0) {
+            return res.status(404).json({ message: 'No articles found.' });
+        }
+
+        // Process the hits
+        const results = hits.map(hit => ({
+            ...hit,
+            id: hit.objectID
+        }));
+
+        res.json({ Articles: results });
     } catch (error) {
-        next(error)
+        next(error);
     }
 });
+
+
+
 
 
 // Recent articles 
