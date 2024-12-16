@@ -181,9 +181,20 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
             userId,
             orgId
         })
+        const indexName = `org_${orgId}_articles`;
+        const articleObject = {
+            objectID: newArticle.id,
+            title,
+            body,
+            plainText,
+            userId,
+            orgId,
+        };
 
-
-        await uploadOrgDataToAlgolia(orgId)
+        await client.saveObject({
+            indexName,
+            body: articleObject
+        });
 
         return res.status(201).json(newArticle)
     } catch (error) {
@@ -194,49 +205,81 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
 router.put('/:orgId/:articleId', requireOrg, requireAdmin, validateArticle, async (req, res, next) => {
     try {
         const { title, body } = req.body;
-        const userId = req.user.id;
         const orgId = parseInt(req.params.orgId);
         const articleId = parseInt(req.params.articleId);
+        const userId = req.user.id;
         const article = await Articles.findByPk(articleId);
-        const plainText = sanitizeHtml(body, {allowedTags: []});
-        
-        if(!article) {
-            const err = new Error('Article not found')
+
+        if (!article) {
+            const err = new Error('Article not found');
             err.status = 404;
             return next(err);
         }
 
+        const plainText = sanitizeHtml(body, { allowedTags: [] });
+
+        // Update the article in the database
         await article.update({
             title,
             body,
             plainText,
             userId,
-            orgId
-        })
-    
-        return res.json(article)
+            orgId,
+        });
+
+        // Prepare object for Algolia update
+        const indexName = `org_${orgId}_articles`;
+        const articleObject = {
+            objectID: article.id,
+            title,
+            body,
+            plainText,
+            userId,
+            orgId,
+        };
+
+        // Ensure the objects array is correctly structured
+        await client.saveObject({
+            indexName,
+            body: articleObject
+        });
+
+        return res.json(article);
     } catch (error) {
-        next(error)
+        next(error);
     }
-})
+});
+
+
+
+
 // Delete an Article
 router.delete('/:orgId/:articleId', requireOrg, requireAdmin, async (req, res, next) => {
     try {
+        const orgId = parseInt(req.params.orgId);
         const articleId = parseInt(req.params.articleId);
         const article = await Articles.findByPk(articleId);
 
-        if(!article) {
+        if (!article) {
             const err = new Error("Article couldn't be found");
             err.status = 404;
-            return next(err)
+            return next(err);
         }
 
-        await article.destroy();
-    
 
-        res.json({message: "Successfully deleted", article: article});
+        await article.destroy();
+
+        const indexName = `org_${orgId}_articles`;
+
+
+        await client.deleteObject({
+            indexName: indexName,
+            objectID: articleId.toString()
+        });
+
+        res.json({ message: "Successfully deleted", article: article });
     } catch (error) {
-        next(error)
+        next(error);
     }
 });
 
