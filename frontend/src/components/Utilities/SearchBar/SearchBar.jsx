@@ -8,9 +8,14 @@ import { useNavigate } from 'react-router-dom';
 
 
 const client = algoliasearch(
-    import.meta.env.VITE_ALGOLIA_APP_ID,
-    import.meta.env.VITE_ALGOLIA_SEARCH_API_KEY
+  import.meta.env.MODE === 'production'
+    ? import.meta.env.VITE_PROD_ALGOLIA_APP_ID  
+    : import.meta.env.VITE_DEV_ALGOLIA_APP_ID, 
+  import.meta.env.MODE === 'production'
+    ? import.meta.env.VITE_PROD_ALGOLIA_SEARCH_API_KEY
+    : import.meta.env.VITE_DEV_ALGOLIA_SEARCH_API_KEY
 );
+
 
 
 
