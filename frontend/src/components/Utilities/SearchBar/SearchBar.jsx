@@ -14,6 +14,7 @@ const client = algoliasearch(
 
 
 
+
 function SearchBar() {
   const orgId = useSelector(state => state.sessionState.user.Organization.id);
   const [isFocused, setIsFocused] = useState(false); 
@@ -31,6 +32,9 @@ function SearchBar() {
   const handleClick = () => {
     setIsFocused(false);
   }
+  console.log(`Using index: org_${orgId}_articles`);
+  console.log("Algolia App ID:", import.meta.env.VITE_ALGOLIA_APP_ID);
+
 
 
   return (
