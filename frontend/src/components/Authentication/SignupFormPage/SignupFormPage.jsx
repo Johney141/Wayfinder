@@ -46,7 +46,7 @@ function SignupFormPage() {
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
   };
-
+                                                                              
   return (
     <div className='auth-container'>
       <h1 className='title' onClick={() => navigate('/')}>Wayfinder</h1>
