@@ -56,7 +56,7 @@ export const signup = (user) => async (dispatch) => {
 
 export const createUser = (orgId, user) => async () => {
   const { firstName, lastName, email, password, isAdmin} = user;
-  console.log('Here we are at thunk')
+  
   const response = await csrfFetch(`/api/users/${orgId}`, {
     method: "POST",
     body: JSON.stringify({
@@ -73,7 +73,7 @@ export const createUser = (orgId, user) => async () => {
 };
 
 export const logout = () => async (dispatch) => {
-  console.log('Attempting logout')
+  
   const response = await csrfFetch('/api/session', {
     method: 'DELETE'
   });

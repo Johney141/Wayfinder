@@ -9,7 +9,7 @@ function Hit({ hit, click }) {
     const handleItemClick = (event) => {
         event.preventDefault();  
     };
-    console.log(hit);
+    
 
     
 

@@ -33,8 +33,7 @@ function UpdateForm() {
     
 
     const cleanBody = cleanHtmlContent(article.body)
-    console.log(article.body)
-    console.log(cleanBody)
+    
     const [body, setBody] = useState(article.body);
     
     
@@ -49,7 +48,7 @@ function UpdateForm() {
             title,
             body: cleanedBody
         };
-        console.log(articleBody)
+        
         const article = await dispatch(updateArticleThunk(orgId, articleId, articleBody));
     
         if (article?.errors) {

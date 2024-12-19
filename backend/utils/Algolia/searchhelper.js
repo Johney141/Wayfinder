@@ -13,7 +13,7 @@ async function searchOrgArticles(query, orgId) {
 
     try {
         const results = await index.search(query);
-        console.log('Search Results:', results.hits);
+        
     } catch (err) {
         console.error('Error performing search:', err);
     }

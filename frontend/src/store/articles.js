@@ -135,7 +135,7 @@ export const getArticleDetailsThunk = (orgId, articleId) => async (dispatch) => 
         const res = await csrfFetch(`/api/articles/${orgId}/${articleId}`);
         if(res.ok) {
             const article = await res.json();
-            console.log(article)
+            
             dispatch(getArticleDetails(article))
         } else {
             throw res
@@ -374,7 +374,7 @@ const articleReducer = (state=initialState, action) => {
             return newState
         case UPDATE_ARTICLE: {
             newState = {...state};
-            console.log(newState)
+            
 
             const updatedAllArticles = newState.allArticles.map(article =>
                 article.id === action.payload.id ? action.payload : article
