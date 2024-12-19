@@ -34,6 +34,8 @@ function SearchBar() {
   }
   console.log(`Using index: org_${orgId}_articles`);
   console.log("Algolia App ID:", import.meta.env.VITE_ALGOLIA_APP_ID);
+  console.log("Full environment:", import.meta.env);
+
 
 
 
