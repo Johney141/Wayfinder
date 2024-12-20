@@ -32,7 +32,7 @@ function UpdateForm() {
     
     
 
-    const cleanBody = cleanHtmlContent(article.body)
+    
     
     const [body, setBody] = useState(article.body);
     
