@@ -1,5 +1,5 @@
 const express = require('express');
-const { Articles, Comments, Organization, User, Reactions, Sequelize, sequelize } = require('../../db/models');
+const { Articles, Comments, Organization, User, Reactions, Sequelize, sequelize, Tags, ArticleTags } = require('../../db/models');
 const { requireOrg, requireAdmin } = require('../../utils/auth');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -169,7 +169,7 @@ const validateArticle = [
 // Create a Article
 router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, res, next) => {
     try {
-        const { title, body } = req.body;
+        const { title, body, existingTags, newTags } = req.body;
         const userId = req.user.id;
         const orgId = parseInt(req.params.orgId);
         const plainText = sanitizeHtml(body, {allowedTags: []});
@@ -181,7 +181,7 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
             userId,
             orgId
         })
-        const indexName = `org_${orgId}_articles`;
+        const articleIndexName = `org_${orgId}_articles`;
         const articleObject = {
             objectID: newArticle.id,
             title,
@@ -191,10 +191,20 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
             orgId,
         };
 
+
         await client.saveObject({
-            indexName,
+            articleIndexName,
             body: articleObject
         });
+        const tagIndexName = `org_${orgId}_tags`
+        for(let i = 0; i < existingTags.length; i++) {
+            const tag = existingTags[i];
+            await ArticleTags.create({
+                articleId: newArticle.id,
+                tagId: tag.objectID
+            })
+            
+        }
 
         return res.status(201).json(newArticle)
     } catch (error) {
