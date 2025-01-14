@@ -189,25 +189,24 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
             plainText,
             userId,
             orgId,
+            Tags: []
         };
 
-
-        await client.saveObject({
-            articleIndexName,
-            body: articleObject
-        });
         const tagIndexName = `org_${orgId}_tags`
         // Handle Existing Tags
-        for(let i = 0; i < existingTags.length; i++) {
-            const tag = existingTags[i];
+        for(const tag of existingTags) {
             await ArticleTags.create({
                 articleId: newArticle.id,
                 tagId: tag.objectID
             })
+            const formattedTag = {
+                id: tag.objectID,
+                name: tag.name
+            }
+            articleObject.Tags.push(formattedTag)
         }
         // Handle New Tags
-        for(let i = 0; i < newTags.length; i++) {
-            const name = newTags[i];
+        for(const name of newTags) {
             const newTag = await Tags.create({
                 name
             });
@@ -224,8 +223,16 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
                 tagIndexName,
                 body: tagObj
             });
+            const formattedTag = {
+                id: newTag.id,
+                name
+            }
+            articleObject.Tags.push(formattedTag)
         }
-
+        await client.saveObject({
+            articleIndexName,
+            body: articleObject
+        });
         return res.status(201).json(newArticle)
     } catch (error) {
         next(error)
