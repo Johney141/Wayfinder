@@ -197,13 +197,33 @@ router.post('/:orgId', requireOrg, requireAdmin, validateArticle, async (req, re
             body: articleObject
         });
         const tagIndexName = `org_${orgId}_tags`
+        // Handle Existing Tags
         for(let i = 0; i < existingTags.length; i++) {
             const tag = existingTags[i];
             await ArticleTags.create({
                 articleId: newArticle.id,
                 tagId: tag.objectID
             })
-            
+        }
+        // Handle New Tags
+        for(let i = 0; i < newTags.length; i++) {
+            const name = newTags[i];
+            const newTag = await Tags.create({
+                name
+            });
+            await ArticleTags.create({
+                articleId: newArticle.id,
+                tagId: newTag.id
+            });
+
+            const tagObj = {
+                objectID: newTag.id,
+                name
+            };
+            await client.saveObject({
+                tagIndexName,
+                body: tagObj
+            });
         }
 
         return res.status(201).json(newArticle)
