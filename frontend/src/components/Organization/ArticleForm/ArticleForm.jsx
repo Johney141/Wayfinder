@@ -1,11 +1,23 @@
 import { useState } from 'react';
 import './ArticleForm.css';
+import algoliasearch from 'algoliasearch/lite';
+import { InstantSearch, Hits, SearchBox, } from 'react-instantsearch';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createArticleThunk } from '../../../store/articles';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../../../styles/quillStyles.css'
+
+
+const client = algoliasearch(
+  import.meta.env.MODE === 'production'
+    ? import.meta.env.VITE_PROD_ALGOLIA_APP_ID  
+    : import.meta.env.VITE_DEV_ALGOLIA_APP_ID, 
+  import.meta.env.MODE === 'production'
+    ? import.meta.env.VITE_PROD_ALGOLIA_SEARCH_API_KEY
+    : import.meta.env.VITE_DEV_ALGOLIA_SEARCH_API_KEY
+);
 
 function ArticleForm() {
     const [title, setTitle] = useState('');
@@ -57,7 +69,24 @@ function ArticleForm() {
                     />
                 </label>
                 {errors.title && <p className='error'>{errors.title}</p>}
+                <InstantSearch indexName={`org_${orgId}_articles`} searchClient={client}>
+                <div className='search-container'>
+                    Tags
+                    <SearchBox 
+                        resetIconComponent={() => <span />}
+                        onSubmit={(event) => handleSearchSubmit(event, event.target.querySelector('input').value)}
+                        classNames={{
+                            form: 'form-input',
+                            input: 'form-title',
+                            submitIcon: 'search-icon',
+                            reset: 'is-reset-button'
+                        }} 
+                        
+                />
+                </div>
 
+
+                </InstantSearch>
                 <ReactQuill
                     theme="snow"
                     value={body} 
