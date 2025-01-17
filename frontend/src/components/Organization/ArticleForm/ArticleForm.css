@@ -1,3 +1,12 @@
+.ql-editor {
+    width: 100% !important;
+    max-width: none !important;
+
+}
+.ql-container {
+    overflow: hidden !important;
+}
+
 .form-container {
     display: flex;
     flex-direction: column;

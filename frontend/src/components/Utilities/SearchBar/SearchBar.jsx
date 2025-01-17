@@ -27,7 +27,7 @@ function SearchBar() {
 
 
   const handleSearchSubmit = (event, searchQuery) => {
-    event.preventDefault();  // Prevent default form submission
+    event.preventDefault();  
     const trimmedSearch = searchQuery.trim();
     if (trimmedSearch) {
       navigate(`/${orgId}/articles/search?q=${trimmedSearch}`);
