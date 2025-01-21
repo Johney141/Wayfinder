@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import './ArticleForm.css';
 import algoliasearch from 'algoliasearch/lite';
-import { InstantSearch, SearchBox, } from 'react-instantsearch';
+import { InstantSearch, } from 'react-instantsearch';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createArticleThunk } from '../../../store/articles';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../../../styles/quillStyles.css'
+import TagSearchBox from './Tags/CustomSearch';
 
 
 const client = algoliasearch(
@@ -22,7 +23,8 @@ const client = algoliasearch(
 function ArticleForm() {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
-    const [tags, setTags] = useState([]);
+    const [newTags, setNewTags] = useState([]);
+    const [existingTags, setExistingTags] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -72,18 +74,7 @@ function ArticleForm() {
                 {errors.title && <p className='error'>{errors.title}</p>}
                 <InstantSearch indexName={`org_${orgId}_articles`} searchClient={client}>
                 <div className='tag-container'>
-                    Tags
-                    <SearchBox 
-                        resetIconComponent={() => <span />}
-                        classNames={{
-                            root: 'tag-root',
-                            form: 'tag-input',
-                            input: 'tag-title',
-                            submitIcon: 'hidden',
-                            reset: 'is-reset-button'
-                        }} 
-                        
-                />
+                    <TagSearchBox />
                 </div>
 
 
