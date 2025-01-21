@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './ArticleForm.css';
 import algoliasearch from 'algoliasearch/lite';
-import { InstantSearch, Hits, SearchBox, } from 'react-instantsearch';
+import { InstantSearch, SearchBox, } from 'react-instantsearch';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createArticleThunk } from '../../../store/articles';
@@ -22,6 +22,7 @@ const client = algoliasearch(
 function ArticleForm() {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
+    const [tags, setTags] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -70,15 +71,15 @@ function ArticleForm() {
                 </label>
                 {errors.title && <p className='error'>{errors.title}</p>}
                 <InstantSearch indexName={`org_${orgId}_articles`} searchClient={client}>
-                <div className='search-container'>
+                <div className='tag-container'>
                     Tags
                     <SearchBox 
                         resetIconComponent={() => <span />}
-                        onSubmit={(event) => handleSearchSubmit(event, event.target.querySelector('input').value)}
                         classNames={{
-                            form: 'form-input',
-                            input: 'form-title',
-                            submitIcon: 'search-icon',
+                            root: 'tag-root',
+                            form: 'tag-input',
+                            input: 'tag-title',
+                            submitIcon: 'hidden',
                             reset: 'is-reset-button'
                         }} 
                         

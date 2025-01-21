@@ -51,6 +51,7 @@ function SearchBar() {
           resetIconComponent={() => <span />}
           onSubmit={(event) => handleSearchSubmit(event, event.target.querySelector('input').value)}
           classNames={{
+            root: 'search-root',
             form: 'search-wrapper',
             input: 'search-bar',
             submitIcon: 'search-icon',

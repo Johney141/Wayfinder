@@ -6,6 +6,31 @@
 .ql-container {
     overflow: hidden !important;
 }
+.tag-root {
+    width: 100% !important;
+
+
+}
+
+.tag-container {
+    width: 100%;
+}
+.tag-input {
+    width: 77%
+}
+
+.tag-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100% !important;
+    max-width: 100% !important;
+}
 
 .form-container {
     display: flex;

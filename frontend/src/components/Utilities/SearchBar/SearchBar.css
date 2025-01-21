@@ -5,7 +5,7 @@
   align-items: center;
   gap: 1rem; /* Adds spacing between search bar and hits */
 }
-.ais-SearchBox {
+.search-root {
   width: 100%;
   display: flex;
   justify-content: center;
