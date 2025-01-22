@@ -46,10 +46,10 @@ function SignupFormPage() {
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
   };
-
+                                                                              
   return (
     <div className='auth-container'>
-      <h1 className='title'>Wayfinder</h1>
+      <h1 className='title' onClick={() => navigate('/')}>Wayfinder</h1>
       <form onSubmit={handleSubmit} className='auth-form'>
         <h1 id='signup-title'>Sign Up</h1>
         <h4 className='signup-subheading'>Your Information</h4>
@@ -122,6 +122,12 @@ function SignupFormPage() {
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+
+        <p 
+          onClick={() => navigate('/login')}
+          id='signup-link'>
+            Already signed up? Click here to login
+        </p>
 
         <button type="submit" className='auth-button'>Sign Up</button>
       </form>

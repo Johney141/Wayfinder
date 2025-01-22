@@ -64,6 +64,7 @@ html, body {
 
 
 .auth-button {
+    font-family: 'Montserrat', sans-serif;
     margin-top: 1rem;
     padding: 1rem 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -95,6 +96,7 @@ html, body {
     font-weight: 700; /* Bold */
     font-size: 2.5rem;
     color: white;
+    cursor: pointer;
 }
 
 .demo-container {

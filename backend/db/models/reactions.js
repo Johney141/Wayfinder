@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
       Reactions.belongsTo(
         models.User,
-        {foreignKey: 'userid'}
+        {foreignKey: 'userId'}
       )
     }
   }

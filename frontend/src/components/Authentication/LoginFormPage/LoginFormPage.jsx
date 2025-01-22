@@ -38,7 +38,7 @@ function LoginFormPage() {
 
   return (
     <div className='auth-container'>
-      <h1 className='title'>Wayfinder</h1>
+      <h1 className='title' onClick={() => navigate('/')}>Wayfinder</h1>
       <form onSubmit={handleSubmit} className='auth-form'>
         <h1 id='auth-title'>Log In</h1>
         <label
@@ -68,7 +68,7 @@ function LoginFormPage() {
           onClick={() => navigate('/signup')}
           id='signup-link'>
             Aren&apos;t signed up yet? Click here to create an Organization
-          </p>
+        </p>
         <button type="submit" className='auth-button'>Log In</button>
         <div className='demo-container'>
           <button

@@ -21,7 +21,7 @@ function CreateUser() {
         e.preventDefault();
         if (password === confirmPassword) {
           setErrors({});
-          console.log("Trying to submit....")
+          
           return dispatch(
             sessionActions.createUser(orgId, {
               email,

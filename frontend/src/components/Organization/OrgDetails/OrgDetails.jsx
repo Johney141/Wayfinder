@@ -21,9 +21,6 @@ function OrgDetails() {
     const article = useSelector(state => state.articleState.byId[articleId]);
 
     
-
-    const paragraphs = article?.body.split('\n');
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     
@@ -72,10 +69,9 @@ function OrgDetails() {
                 :
                  null}
             </div>
-            <div className='article-container'>
-            {paragraphs.map((para, idx) => (
-                <p key={idx}>{para}</p>
-            ))}
+            <div className='article-container'
+                dangerouslySetInnerHTML={{ __html: article.body }}
+            >      
             </div>
             {article.Reactions && <Reactions reactions={article.Reactions} articleId={articleId}/>}
             <h3>Comments</h3>

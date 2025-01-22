@@ -11,6 +11,7 @@ import OrgDetails from './components/Organization/OrgDetails/OrgDetails.jsx';
 import ArticleForm from './components/Organization/ArticleForm/ArticleForm.jsx';
 import UpdateForm from './components/Organization/UpdateForm/UpdateForm.jsx';
 import CreateUser from './components/Authentication/CreateUser/CreateUser.jsx';
+import LandingPage from './components/LandingPage/LandingPage.jsx';
 
 
 function Layout() {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
+        element: <LandingPage/>
+      },
+      {
+        path: 'login',
         element: <LoginFormPage />
       },
       {

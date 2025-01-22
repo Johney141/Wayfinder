@@ -1,6 +1,4 @@
 'use strict';
-
-
 /** @type {import('sequelize-cli').Migration} */
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -8,41 +6,16 @@ if (process.env.NODE_ENV === 'production') {
 }
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Articles', {
+    await queryInterface.createTable('Tags', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      name: {
         type: Sequelize.STRING,
-        allowNull: false, 
-        unique: true
-      },
-      body: {
-        type: Sequelize.TEXT,
         allowNull: false
-      },
-      plainText: {
-        type: Sequelize.TEXT,
-        allowNull: false
-      }, 
-      orgId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Organizations'
-        },
-        onDelete: 'cascade'
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Users'
-        },
-        onDelete: 'set null'
       },
       createdAt: {
         allowNull: false,
@@ -57,7 +30,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Articles";
+    options.tableName = "Tags";
     await queryInterface.dropTable(options);
   }
 };
