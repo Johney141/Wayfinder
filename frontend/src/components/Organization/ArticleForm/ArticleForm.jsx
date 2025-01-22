@@ -9,6 +9,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../../../styles/quillStyles.css'
 import TagSearchBox from './Tags/CustomSearch';
+import { MdOutlineCancel } from "react-icons/md";
+
 
 
 const client = algoliasearch(
@@ -23,8 +25,7 @@ const client = algoliasearch(
 function ArticleForm() {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
-    const [newTags, setNewTags] = useState([]);
-    const [existingTags, setExistingTags] = useState([]);
+    const [tags, setTags] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [errors, setErrors] = useState({});
@@ -56,7 +57,14 @@ function ArticleForm() {
             navigate(`/${orgId}/articles/${article.id}`);
         }
     };
-
+    const handleTagAdd = (newTag) => {
+        if (!tags.includes(newTag)) {
+          setTags([...tags, newTag]);
+        }
+    };
+    const removeTag = (tagToRemove) => {
+        setTags((prevTags) => prevTags.filter((tag) => tag !== tagToRemove))
+    }
     return (
         <div className='page-container'>
             <h1>Create a new Article</h1>
@@ -74,7 +82,14 @@ function ArticleForm() {
                 {errors.title && <p className='error'>{errors.title}</p>}
                 <InstantSearch indexName={`org_${orgId}_articles`} searchClient={client}>
                 <div className='tag-container'>
-                    <TagSearchBox />
+                    <TagSearchBox onTagAdd={handleTagAdd}/>
+
+                    {tags.map(tag => (
+                        <div>
+                            {tag}
+                            <MdOutlineCancel onClick={() => removeTag(tag)}/>
+                        </div>
+                    ))}
                 </div>
 
 
